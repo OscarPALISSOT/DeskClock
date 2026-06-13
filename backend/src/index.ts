@@ -7,6 +7,7 @@ import corsPlugin from './plugins/cors.js'
 
 import sessionRoutes from './routes/sessions.js'
 import meRoutes from './routes/me.js'
+import authRoutes from './routes/auth.js'
 
 const logger: FastifyServerOptions['logger'] =
   process.env['NODE_ENV'] !== 'production'
@@ -27,6 +28,7 @@ await app.register(jwtPlugin)
 // Routes
 await app.register(sessionRoutes, { prefix: '/v1/sessions' })
 await app.register(meRoutes, { prefix: '/v1/me' })
+await app.register(authRoutes, { prefix: '/v1/auth' })
 
 // Health check
 app.get('/ping', async () => ({ status: 'ok' }))
