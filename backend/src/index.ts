@@ -1,4 +1,12 @@
+import 'dotenv/config'
 import Fastify, { FastifyServerOptions } from 'fastify'
+
+import dbPlugin from './plugins/db.js'
+import jwtPlugin from './plugins/jwt.js'
+import corsPlugin from './plugins/cors.js'
+
+import sessionRoutes from './routes/sessions.js'
+import meRoutes from './routes/me.js'
 
 const logger: FastifyServerOptions['logger'] =
   process.env['NODE_ENV'] !== 'production'
@@ -11,7 +19,17 @@ const logger: FastifyServerOptions['logger'] =
 
 const app = Fastify({ logger })
 
-app.get('/healthz', async () => ({ status: 'ok' }))
+// Plugins
+await app.register(corsPlugin)
+await app.register(dbPlugin)
+await app.register(jwtPlugin)
+
+// Routes
+await app.register(sessionRoutes, { prefix: '/v1/sessions' })
+await app.register(meRoutes, { prefix: '/v1/me' })
+
+// Health check
+app.get('/ping', async () => ({ status: 'ok' }))
 
 const start = async () => {
   try {
