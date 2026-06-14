@@ -11,7 +11,6 @@ Ce répertoire contient le backend de DeskClock. Il expose les endpoints consomm
 ## Sommaire
 
 - [Stack](#stack)
-- [Structure](#structure)
 - [Modèle de données](#modèle-de-données)
 - [API — endpoints](#api--endpoints)
 - [Flux d'authentification](#flux-dauthentification)
@@ -27,14 +26,6 @@ Ce répertoire contient le backend de DeskClock. Il expose les endpoints consomm
 |--------|-------------|----------|
 
 todo
-
----
-
-## Structure
-
-```
-todo
-```
 
 ---
 

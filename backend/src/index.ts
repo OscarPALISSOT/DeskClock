@@ -1,9 +1,10 @@
 import 'dotenv/config'
-import Fastify, { FastifyServerOptions } from 'fastify'
+import Fastify, { FastifyError, FastifyServerOptions } from 'fastify'
 
 import dbPlugin from './plugins/db.js'
 import jwtPlugin from './plugins/jwt.js'
 import corsPlugin from './plugins/cors.js'
+import errorHandlerPlugin from './plugins/error.js'
 
 import sessionRoutes from './routes/sessions.js'
 import meRoutes from './routes/me.js'
@@ -24,6 +25,7 @@ const app = Fastify({ logger })
 await app.register(corsPlugin)
 await app.register(dbPlugin)
 await app.register(jwtPlugin)
+await app.register(errorHandlerPlugin)
 
 // Routes
 await app.register(sessionRoutes, { prefix: '/v1/sessions' })
