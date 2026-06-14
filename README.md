@@ -10,11 +10,9 @@ Un projet perso exploratoire qui couvre plusieurs sujets techniques en un seul e
 
 - [Vue d'ensemble](#vue-densemble)
 - [Architecture globale](#architecture-globale)
-- [Structure du monorepo](#structure-du-monorepo)
 - [Stack technique](#stack-technique)
 - [Détection de présence (géofencing)](#détection-de-présence-géofencing)
 - [Installation & lancement](#installation--lancement)
-- [Roadmap](#roadmap)
 
 ---
 
@@ -62,18 +60,6 @@ graph TB
     WGT -->|"GET /sessions\n(toutes les 30 min)"| API
     API -->|"Vérifie token\n(Sign in with Apple)"| JWKS
     API <-->|"SQL"| DB
-```
-
----
-
-## Structure du monorepo
-
-```
-deskclock/
-│
-├── todo/
-├── .env.example
-└── README.md
 ```
 
 ---
@@ -147,18 +133,6 @@ todo
 todo
 
 > **Sans Apple Developer Program :** le certificat expire tous les 7 jours. Re-signer en rebranchant l'iPhone et en relançant `⌘R`, ou utiliser [AltStore](https://altstore.io/) pour la re-signature automatique via Wi-Fi.
-
----
-
-## Roadmap
-
-- [x] Architecture & schéma de données
-- [ ] Backend — auth Apple + CRUD sessions
-- [ ] Backend — tests d'intégration (Vitest)
-- [ ] App iOS — affichage et clock-in/out manuel
-- [ ] App iOS — géofencing Core Location
-- [ ] Widget WidgetKit
-- [ ] CI GitHub Actions (lint, tests, build Docker)
 
 ---
 
