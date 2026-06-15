@@ -13,10 +13,10 @@ import sessionRoutes from './routes/sessions.js';
 const logger: FastifyServerOptions['logger'] =
   process.env.NODE_ENV !== 'production'
     ? {
-      transport: {
-        target: 'pino-pretty',
-      },
-    }
+        transport: {
+          target: 'pino-pretty',
+        },
+      }
     : true;
 
 const app = Fastify({ logger });
