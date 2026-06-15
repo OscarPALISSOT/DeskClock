@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    name: Lint & Tests
+    name: Lint & tests backend
     runs-on: ubuntu-latest
 
     services:
@@ -61,3 +61,17 @@ jobs:
           JWT_SECRET: ci-secret-pour-les-tests-uniquement
           APPLE_CLIENT_ID: com.test.deskclock
           NODE_ENV: test
+
+  backend-ok:
+    name: Backend OK
+    runs-on: ubuntu-latest
+    needs: [ci]
+    if: always()
+    steps:
+      - name: Check ci result
+        run: |
+          if [[ "${{ needs.ci.result }}" == "failure" || "${{ needs.ci.result }}" == "cancelled" ]]; then
+            echo "CI failed or was cancelled"
+            exit 1
+          fi
+          echo "CI passed or was skipped — OK"
