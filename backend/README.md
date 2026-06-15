@@ -191,6 +191,9 @@ APPLE_CLIENT_ID=com.ton-nom.deskclock   # Bundle ID de l'app iOS
 cp .env.example .env
 # → Renseigner les variables
 
+# Lancer la DB PostgreSQL
+docker compose up -d
+
 todo
 ```
 
@@ -206,7 +209,7 @@ todo
 ## Tests
 
 ```bash
-cd apps/api
+cd backend/
 npm run test          # Vitest en mode watch
 npm run test:run      # Une seule passe (CI)
 ```
