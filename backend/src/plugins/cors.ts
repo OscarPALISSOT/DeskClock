@@ -4,6 +4,6 @@ import fp from 'fastify-plugin';
 
 export default fp(async (app: FastifyInstance) => {
   app.register(fastifyCors, {
-    origin: process.env['NODE_ENV'] === 'production' ? false : true,
+    origin: process.env.NODE_ENV !== 'production',
   });
 });

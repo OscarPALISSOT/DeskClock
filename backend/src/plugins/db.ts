@@ -9,7 +9,7 @@ declare module 'fastify' {
 }
 
 export default fp(async (app: FastifyInstance) => {
-  const db = postgres(process.env['DATABASE_URL'] ?? '', {
+  const db = postgres(process.env.DATABASE_URL ?? '', {
     max: 10,
     idle_timeout: 30,
     connect_timeout: 10,

@@ -33,7 +33,7 @@ const APPLE_JWKS = createRemoteJWKSet(new URL('https://appleid.apple.com/auth/ke
 
 // Apple token verification
 export async function verifyAppleToken(identityToken: string): Promise<AppleClaims> {
-  const clientId = process.env['APPLE_CLIENT_ID'];
+  const clientId = process.env.APPLE_CLIENT_ID;
 
   if (!clientId) {
     throw new Error('APPLE_CLIENT_ID missing');

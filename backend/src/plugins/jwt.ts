@@ -17,7 +17,7 @@ declare module '@fastify/jwt' {
 
 export default fp(async (app: FastifyInstance) => {
   app.register(fastifyJwt, {
-    secret: process.env['JWT_SECRET'] ?? '',
+    secret: process.env.JWT_SECRET ?? '',
   });
 
   app.decorate('authenticate', async (request: FastifyRequest, reply: FastifyReply) => {
