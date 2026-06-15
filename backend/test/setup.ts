@@ -10,7 +10,7 @@ import meRoutes from '../src/routes/me.js';
 import sessionRoutes from '../src/routes/sessions.js';
 
 export async function buildApp() {
-  process.env['DATABASE_URL'] = process.env['DATABASE_URL_TEST'] ?? '';
+  process.env.DATABASE_URL = process.env.DATABASE_URL_TEST ?? '';
 
   const app = Fastify({ logger: false });
 

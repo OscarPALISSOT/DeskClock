@@ -11,7 +11,7 @@ import meRoutes from './routes/me.js';
 import sessionRoutes from './routes/sessions.js';
 
 const logger: FastifyServerOptions['logger'] =
-  process.env['NODE_ENV'] !== 'production'
+  process.env.NODE_ENV !== 'production'
     ? {
         transport: {
           target: 'pino-pretty',
@@ -38,7 +38,7 @@ app.get('/ping', async () => ({ status: 'ok' }));
 const start = async () => {
   try {
     await app.listen({
-      port: Number(process.env['PORT'] ?? 3000),
+      port: Number(process.env.PORT ?? 3000),
       host: '0.0.0.0',
     });
   } catch (err) {
