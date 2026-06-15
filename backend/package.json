@@ -10,6 +10,8 @@
     "migrate:up": "dotenv -e .env -- node-pg-migrate up --migrations-dir migrations --database-url-var DATABASE_URL",
     "migrate:down": "dotenv -e .env -- node-pg-migrate down --migrations-dir migrations --database-url-var DATABASE_URL",
     "migrate:test": "dotenv -e .env -- node-pg-migrate up --migrations-dir migrations --database-url-var DATABASE_URL_TEST",
+    "lint": "biome check src test",
+    "lint:fix": "biome check --write src test",
     "test": "vitest",
     "test:run": "vitest run"
   },
@@ -24,6 +26,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.10.1",
     "dotenv-cli": "^11.0.0",
     "node-pg-migrate": "^7.9.1",
