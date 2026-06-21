@@ -7,19 +7,33 @@
 
 import SwiftUI
 
-struct ContentView: View {
+import SwiftUI
+
+struct DashboardView: View {
+    let sessions: [Session] = Session.mockSessions
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                Section {
+                    WeekProgressView(sessions: sessions)
+                } header: {
+                    Text("Cette semaine")
+                }
+                
+                Section {
+                    ForEach(sessions) { session in
+                        SessionRowView(session: session)
+                    }
+                } header: {
+                    Text("Journal")
+                }
+            }
+            .navigationTitle("DeskClock")
         }
-        .padding()
-        
     }
 }
 
 #Preview {
-    ContentView()
+    DashboardView()
 }
