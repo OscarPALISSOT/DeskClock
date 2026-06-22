@@ -18,23 +18,24 @@ struct WeekProgressView: View {
     
     let targetSeconds: Double = 37.5 * 3600
     
-    func labelHours(seconds: Double) -> String {
-        return String(Duration.seconds(seconds).formatted(.time(pattern: .hourMinute)))
-    }
-    
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("\(labelHours(seconds: totalSeconds))h / \(labelHours(seconds: targetSeconds))h")
-                .font(.title)
-                .fontWeight(.bold)
+        HStack {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("\(Duration.seconds(totalSeconds).condensed(style: .hoursOnly)) / \(Duration.seconds(targetSeconds).condensed(style: .hoursOnly))")
+                    .font(.title)
+                    .fontWeight(.bold)
+                
+                
+                Text("\(Duration.seconds(targetSeconds - totalSeconds).condensed()) restantes")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.vertical, 8)
             
-            ProgressView(value: totalSeconds, total: targetSeconds)
-                .tint(.blue)
+            Spacer()
             
-            Text("\(labelHours(seconds:targetSeconds - totalSeconds))h restantes")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            CircularProgressView(value: totalSeconds / targetSeconds)
         }
-        .padding(.vertical, 8)
+        
     }
 }

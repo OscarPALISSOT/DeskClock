@@ -29,7 +29,7 @@ struct SessionRowView: View {
             VStack(alignment: .leading) {
                 Text(session.isActive ? "En cours" : "Terminée")
                     .font(.headline)
-                Text(session.startedAt, format: .dateTime.hour().minute())
+                Text("\(session.startedAt, format: .dateTime.hour().minute()) \(session.isActive ? "" : " - \(session.endedAt!, format: .dateTime.hour().minute())")")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -37,7 +37,7 @@ struct SessionRowView: View {
             Spacer()
             
             if let duration = session.duration {
-                Text(Duration.seconds(duration).formatted(.units(allowed: [.hours, .minutes])))
+                Text(Duration.seconds(duration).condensed())
                     .font(.headline)
                     .fontWeight(.semibold)
             } else {
