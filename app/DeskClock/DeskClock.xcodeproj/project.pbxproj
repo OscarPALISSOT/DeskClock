@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		2740C04D2FE4A1A2005420C4 /* DeskClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = DeskClock.app; path = "/Users/oscarpalissot/Documents/DeskClock/app/DeskClock/build/Debug-iphoneos/DeskClock.app"; sourceTree = "<absolute>"; };
+		278B8FE72FE5FB4D00A8509A /* DeskClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -36,9 +36,9 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		2740C06E2FE5F01A005420C4 /* Ressourses */ = {
+		278B8FEE2FE5FBED00A8509A /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Ressourses;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -57,12 +57,13 @@
 		2740C0442FE4A1A2005420C4 = {
 			isa = PBXGroup;
 			children = (
+				278B8FEE2FE5FBED00A8509A /* Resources */,
 				2740C0682FE5EFB3005420C4 /* App */,
 				2740C0672FE5EFA3005420C4 /* Views */,
-				2740C06E2FE5F01A005420C4 /* Ressourses */,
 				2740C06C2FE5F001005420C4 /* Services */,
 				2740C06B2FE5EFF9005420C4 /* Models */,
 				2740C06A2FE5EFDA005420C4 /* ViewsModels */,
+				278B8FE72FE5FB4D00A8509A /* DeskClock.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,13 +88,13 @@
 				2740C06A2FE5EFDA005420C4 /* ViewsModels */,
 				2740C06B2FE5EFF9005420C4 /* Models */,
 				2740C06C2FE5F001005420C4 /* Services */,
-				2740C06E2FE5F01A005420C4 /* Ressourses */,
+				278B8FEE2FE5FBED00A8509A /* Resources */,
 			);
 			name = DeskClock;
 			packageProductDependencies = (
 			);
 			productName = DeskClock;
-			productReference = 2740C04D2FE4A1A2005420C4 /* DeskClock.app */;
+			productReference = 278B8FE72FE5FB4D00A8509A /* DeskClock.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

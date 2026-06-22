@@ -11,7 +11,22 @@ import SwiftUI
 struct DeskClockApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView {
+                DashboardView()
+                    .tabItem {
+                        Label("Tableau de bord", systemImage: "house.fill")
+                    }
+                
+                HistoryView()
+                    .tabItem {
+                        Label("Historique", systemImage: "clock.fill")
+                    }
+                
+                SettingsView()
+                    .tabItem {
+                        Label("Réglages", systemImage: "gear")
+                    }
+            }
         }
     }
 }
