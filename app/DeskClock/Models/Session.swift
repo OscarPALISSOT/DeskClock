@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Session: Identifiable {
+struct Session: Identifiable, Hashable {
     let id: String
     let startedAt: Date
     let endedAt: Date?
@@ -42,14 +42,65 @@ extension Session {
             startedAt: Calendar.current.date(
                 byAdding: .day, value: -1,
                 to: Calendar.current.date(
-                    bySettingHour: 8, minute: 45, second: 0,
+                    bySettingHour: 8, minute: 47, second: 0,
                     of: Date()
                 )!
             )!,
             endedAt: Calendar.current.date(
                 byAdding: .day, value: -1,
                 to: Calendar.current.date(
-                    bySettingHour: 18, minute: 0, second: 0,
+                    bySettingHour: 12, minute: 03, second: 0,
+                    of: Date()
+                )!
+            )!
+        ),
+        Session(
+            id: "3",
+            startedAt: Calendar.current.date(
+                byAdding: .day, value: -1,
+                to: Calendar.current.date(
+                    bySettingHour: 13, minute: 58, second: 0,
+                    of: Date()
+                )!
+            )!,
+            endedAt: Calendar.current.date(
+                byAdding: .day, value: -1,
+                to: Calendar.current.date(
+                    bySettingHour: 18, minute: 2, second: 0,
+                    of: Date()
+                )!
+            )!
+        ),
+        Session(
+            id: "4",
+            startedAt: Calendar.current.date(
+                byAdding: .day, value: -2,
+                to: Calendar.current.date(
+                    bySettingHour: 8, minute: 21, second: 0,
+                    of: Date()
+                )!
+            )!,
+            endedAt: Calendar.current.date(
+                byAdding: .day, value: -2,
+                to: Calendar.current.date(
+                    bySettingHour: 12, minute: 28, second: 0,
+                    of: Date()
+                )!
+            )!
+        ),
+        Session(
+            id: "5",
+            startedAt: Calendar.current.date(
+                byAdding: .day, value: -2,
+                to: Calendar.current.date(
+                    bySettingHour: 14, minute: 17, second: 0,
+                    of: Date()
+                )!
+            )!,
+            endedAt: Calendar.current.date(
+                byAdding: .day, value: -2,
+                to: Calendar.current.date(
+                    bySettingHour: 18, minute: 32, second: 0,
                     of: Date()
                 )!
             )!
