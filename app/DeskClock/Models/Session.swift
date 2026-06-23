@@ -21,10 +21,6 @@ struct Session: Identifiable, Hashable {
 }
 
 
-
-
-
-
 // mock for dev
 
 extension Session {

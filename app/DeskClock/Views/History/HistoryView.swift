@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct HistoryView: View {
-    let sessions: [Session] = Session.mockSessions
+    @Environment(SessionViewModel.self) private var viewModel
     
     var body: some View {
         NavigationStack {
             Group {
-                if sessions.isEmpty {
+                if viewModel.sessions.isEmpty {
                     ContentUnavailableView(
                         "Aucune session",
                         systemImage: "clock",
                         description: Text("Vos sessions apparaîtront ici")
                     )
                 } else {
-                    List(sessions) { session in
+                    List(viewModel.sessions) { session in
                         NavigationLink(value: session) {
                             SessionRowView(session: session)
                         }
@@ -31,6 +31,12 @@ struct HistoryView: View {
             .navigationTitle("Historique")
             .navigationDestination(for: Session.self) { session in
                 SessionDetailView(session: session)
+            }
+            .task {
+                await viewModel.fetchSessions()
+            }
+            .refreshable {
+                await viewModel.fetchSessions()
             }
         }
     }

@@ -7,22 +7,20 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct DashboardView: View {
-    let sessions: [Session] = Session.mockSessions
+    @Environment(SessionViewModel.self) private var viewModel
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    WeekProgressView(sessions: sessions)
+                    WeekProgressView(sessions: viewModel.sessions)
                 } header: {
                     Text("Cette semaine")
                 }
                 
                 Section {
-                    ForEach(sessions) { session in
+                    ForEach(viewModel.sessions) { session in
                         SessionRowView(session: session)
                     }
                 } header: {
@@ -30,10 +28,17 @@ struct DashboardView: View {
                 }
             }
             .navigationTitle("DeskClock")
+            .task {
+                await viewModel.fetchSessions()
+            }
+            .refreshable {
+                await viewModel.fetchSessions()
+            }
         }
     }
 }
 
 #Preview {
     DashboardView()
+        .environment(SessionViewModel())
 }

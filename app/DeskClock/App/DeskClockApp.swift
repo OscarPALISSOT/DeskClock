@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct DeskClockApp: App {
+    @State private var sessionViewModel = SessionViewModel()
+    
     var body: some Scene {
         WindowGroup {
             TabView {
@@ -27,6 +29,7 @@ struct DeskClockApp: App {
                         Label("Réglages", systemImage: "gear")
                     }
             }
+            .environment(sessionViewModel)
         }
     }
 }
