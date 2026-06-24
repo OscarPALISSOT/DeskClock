@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		278B8FE72FE5FB4D00A8509A /* DeskClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DeskClock-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -57,6 +58,7 @@
 		2740C0442FE4A1A2005420C4 = {
 			isa = PBXGroup;
 			children = (
+				27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */,
 				278B8FEE2FE5FBED00A8509A /* Resources */,
 				2740C0682FE5EFB3005420C4 /* App */,
 				2740C0672FE5EFA3005420C4 /* Views */,
@@ -283,6 +285,8 @@
 				DEVELOPMENT_TEAM = P683RYJU8U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "DeskClock-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +319,8 @@
 				DEVELOPMENT_TEAM = P683RYJU8U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "DeskClock-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
