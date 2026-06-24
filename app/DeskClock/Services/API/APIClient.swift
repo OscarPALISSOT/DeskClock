@@ -15,7 +15,7 @@ final class APIClient {
     private let decoder: JSONDecoder
     
     private init() {
-        self.baseURL = URL(string: "https://ton-vps.com/v1")!
+        self.baseURL = URL(string: "http://192.168.1.145:3000/v1/")!
         self.session = .shared
         
         self.decoder = JSONDecoder()
@@ -66,13 +66,12 @@ final class APIClient {
     }
     
     func getSessions(from: Date? = nil, to: Date? = nil) async throws -> [Session] {
-        var path = "/sessions"
         
-        var params: [String] = []
         let formatter = ISO8601DateFormatter()
-        if let from { params.append("from=\(formatter.string(from: from))") }
-        if let to { params.append("to=\(formatter.string(from: to))") }
-        if !params.isEmpty { path += "?" + params.joined(separator: "&") }
+        let fromDate = from ?? Calendar.current.startOfWeek(for: Date())
+        let toDate = to ?? Date()
+        
+        let path = "sessions?from=\(formatter.string(from: fromDate))&to=\(formatter.string(from: toDate))"
         
         let dtos: [SessionDTO] = try await request(path)
         return dtos.map { $0.toDomain() }
@@ -85,7 +84,7 @@ final class APIClient {
                 started_at = ISO8601DateFormatter().string(from: date)
             }
         }
-        let dto: SessionDTO = try await request("/sessions", method: "POST", body: Body(date: startedAt))
+        let dto: SessionDTO = try await request("sessions", method: "POST", body: Body(date: startedAt))
         return dto.toDomain()
     }
     
@@ -96,7 +95,7 @@ final class APIClient {
                 ended_at = ISO8601DateFormatter().string(from: date)
             }
         }
-        let dto: SessionDTO = try await request("/sessions/\(sessionId)", method: "PATCH", body: Body(date: endedAt))
+        let dto: SessionDTO = try await request("sessions/\(sessionId)", method: "PATCH", body: Body(date: endedAt))
         return dto.toDomain()
     }
 }

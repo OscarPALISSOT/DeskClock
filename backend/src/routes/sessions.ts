@@ -9,7 +9,7 @@ import {
 
 export default async function sessionRoutes(app: FastifyInstance) {
   // Protect all routes of this plugin
-  app.addHook('onRequest', app.authenticate);
+  //app.addHook('onRequest', app.authenticate);
 
   // POST /sessions — clock-in
   app.post<{ Body: { started_at: string } }>('/', async (request, reply) => {
@@ -52,18 +52,21 @@ export default async function sessionRoutes(app: FastifyInstance) {
   // GET /sessions — liste sur une plage
   app.get<{ Querystring: { from: string; to: string } }>('/', async (request, reply) => {
     const query = ListSessionsQuerySchema.parse(request.query);
-    const userId = request.user.sub;
+    // const userId = request.user.sub;
 
     const sessions = await app.db<Session[]>`
         SELECT *
         FROM work_sessions
-        WHERE user_id = ${userId}
-          AND started_at >= ${query.from}
+
+          WHERE started_at >= ${query.from}
           AND started_at <= ${query.to}
         ORDER BY started_at ASC
       `;
     return reply.send(sessions);
   });
+
+
+        // WHERE user_id = ${userId}
 
   // DELETE /sessions/:id
   app.delete<{ Params: { id: string } }>('/:id', async (request, reply) => {

@@ -21,6 +21,15 @@ const logger: FastifyServerOptions['logger'] =
 
 const app = Fastify({ logger });
 
+app.addHook('onSend', async (request, reply, payload) => {
+  if (reply.statusCode >= 400) {
+    app.log.error({
+      statusCode: reply.statusCode,
+      body: payload,
+    }, 'request error');
+  }
+});
+
 // Plugins
 await app.register(corsPlugin);
 await app.register(dbPlugin);

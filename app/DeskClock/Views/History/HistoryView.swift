@@ -26,6 +26,9 @@ struct HistoryView: View {
                         }
                     }
                     .listStyle(.insetGrouped)
+                    .refreshable {
+                        await viewModel.fetchSessions()
+                    }
                 }
             }
             .navigationTitle("Historique")
@@ -33,9 +36,6 @@ struct HistoryView: View {
                 SessionDetailView(session: session)
             }
             .task {
-                await viewModel.fetchSessions()
-            }
-            .refreshable {
                 await viewModel.fetchSessions()
             }
         }

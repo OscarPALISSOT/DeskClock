@@ -34,6 +34,11 @@ struct DashboardView: View {
             .refreshable {
                 await viewModel.fetchSessions()
             }
+            .alert("Erreur", isPresented: .constant(viewModel.error != nil)) {
+                Button("OK") { viewModel.error = nil }
+            } message: {
+                Text(viewModel.error?.localizedDescription ?? "")
+            }
         }
     }
 }
