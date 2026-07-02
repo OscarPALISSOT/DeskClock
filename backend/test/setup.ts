@@ -1,11 +1,10 @@
 import 'dotenv/config';
 import Fastify from 'fastify';
-import { ZodError } from 'zod';
 import corsPlugin from '../src/plugins/cors.js';
 import dbPlugin from '../src/plugins/db.js';
 import errorHandlerPlugin from '../src/plugins/error.js';
 import jwtPlugin from '../src/plugins/jwt.js';
-import authRoutes from '../src/routes/auth.js';
+import authRoutes from '../src/routes/auth/auth.js';
 import meRoutes from '../src/routes/me.js';
 import sessionRoutes from '../src/routes/sessions.js';
 
@@ -26,15 +25,14 @@ export async function buildApp() {
   return app;
 }
 
-/** Insert a user and return a valid token */
 export async function seedUserWithToken(app: Awaited<ReturnType<typeof buildApp>>) {
+  const email = `test-${crypto.randomUUID()}@example.com`;
   const [user] = await app.db`
-    INSERT INTO users (apple_sub, email)
-    VALUES ('apple-test-sub-' || gen_random_uuid(), 'test@example.com')
+    INSERT INTO users (email, password_hash)
+    VALUES (${email}, 'hashed_password_not_used_in_tests')
     RETURNING *
   `;
   if (!user) throw new Error('Seed user failed');
-
   const token = app.jwt.sign({ sub: user.id });
   return { user, token };
 }

@@ -4,7 +4,7 @@ import { buildApp, cleanDb, seedUserWithToken } from './setup.js';
 
 type App = Awaited<ReturnType<typeof buildApp>>;
 
-describe('Auth', () => {
+describe('Auth apple', () => {
   let app: App;
 
   beforeAll(async () => {

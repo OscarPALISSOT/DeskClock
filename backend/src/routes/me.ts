@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import type { User } from '../schemas/auth.schema.js';
+import type { User } from '../schemas/auth/user.schema.js';
 
 export default async function meRoutes(app: FastifyInstance) {
   app.addHook('onRequest', app.authenticate);

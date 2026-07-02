@@ -1,12 +1,12 @@
 import 'dotenv/config';
-import Fastify, { FastifyError, type FastifyServerOptions } from 'fastify';
+import Fastify, { type FastifyServerOptions } from 'fastify';
 
 import corsPlugin from './plugins/cors.js';
 import dbPlugin from './plugins/db.js';
 import errorHandlerPlugin from './plugins/error.js';
 import jwtPlugin from './plugins/jwt.js';
 
-import authRoutes from './routes/auth.js';
+import authRoutes from './routes/auth/auth.js';
 import meRoutes from './routes/me.js';
 import sessionRoutes from './routes/sessions.js';
 

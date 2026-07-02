@@ -9,27 +9,12 @@ import SwiftUI
 
 @main
 struct DeskClockApp: App {
-    @State private var sessionViewModel = SessionViewModel()
+    @State private var authService = AuthService()
     
     var body: some Scene {
         WindowGroup {
-            TabView {
-                DashboardView()
-                    .tabItem {
-                        Label("Tableau de bord", systemImage: "house.fill")
-                    }
-                
-                HistoryView()
-                    .tabItem {
-                        Label("Historique", systemImage: "clock.fill")
-                    }
-                
-                SettingsView()
-                    .tabItem {
-                        Label("Réglages", systemImage: "gear")
-                    }
-            }
-            .environment(sessionViewModel)
+            ContentView()
+                .environment(authService)
         }
     }
 }

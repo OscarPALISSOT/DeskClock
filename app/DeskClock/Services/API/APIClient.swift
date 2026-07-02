@@ -35,6 +35,10 @@ final class APIClient {
         req.httpMethod = method
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        if let token = try? KeychainService.read(.accessToken) {
+            req.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
         if let body {
             req.httpBody = try JSONEncoder().encode(body)
         }
@@ -63,6 +67,22 @@ final class APIClient {
             let message = try? JSONDecoder().decode(APIErrorResponse.self, from: data)
             throw APIError.httpError(statusCode: http.statusCode, message: message?.message)
         }
+    }
+    
+    func login(email: String, password: String) async throws -> AuthResponseDTO {
+        struct Body: Encodable {
+            let email: String
+            let password: String
+        }
+        return try await request("auth/email/login", method: "POST", body: Body(email: email, password: password))
+    }
+
+    func register(email: String, password: String) async throws -> AuthResponseDTO {
+        struct Body: Encodable {
+            let email: String
+            let password: String
+        }
+        return try await request("auth/email/register", method: "POST", body: Body(email: email, password: password))
     }
     
     func getSessions(from: Date? = nil, to: Date? = nil) async throws -> [Session] {
