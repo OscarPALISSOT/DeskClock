@@ -288,6 +288,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DeskClock-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +326,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DeskClock-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
