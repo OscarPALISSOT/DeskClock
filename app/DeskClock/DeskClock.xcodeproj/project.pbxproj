@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		27672E7E2FFF0E3F00945B06 /* OfficeInside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OfficeInside.gpx; path = ../TestGeoFencing/OfficeInside.gpx; sourceTree = "<group>"; };
+		27672E7F2FFF0E4600945B06 /* OfficeOutside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OfficeOutside.gpx; path = ../TestGeoFencing/OfficeOutside.gpx; sourceTree = "<group>"; };
 		278B8FE72FE5FB4D00A8509A /* DeskClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DeskClock-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +60,8 @@
 		2740C0442FE4A1A2005420C4 = {
 			isa = PBXGroup;
 			children = (
+				27672E7F2FFF0E4600945B06 /* OfficeOutside.gpx */,
+				27672E7E2FFF0E3F00945B06 /* OfficeInside.gpx */,
 				27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */,
 				278B8FEE2FE5FBED00A8509A /* Resources */,
 				2740C0682FE5EFB3005420C4 /* App */,
@@ -288,6 +292,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DeskClock-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +330,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DeskClock-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "DeskClock utilise ta position pour enregistrer automatiquement tes horaires de présence au bureau";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

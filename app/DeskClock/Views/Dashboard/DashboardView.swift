@@ -9,7 +9,9 @@ import SwiftUI
 
 struct DashboardView: View {
     @Environment(SessionViewModel.self) private var viewModel
+    @Environment(LocationService.self) private var locationService
     
+
     var body: some View {
         NavigationStack {
             List {
@@ -39,11 +41,16 @@ struct DashboardView: View {
             } message: {
                 Text(viewModel.error?.localizedDescription ?? "")
             }
+            .onAppear {
+                locationService.requestWhenInUseAuthorization()
+            }
         }
     }
 }
 
+
 #Preview {
     DashboardView()
         .environment(SessionViewModel())
+        .environment(LocationService())
 }
