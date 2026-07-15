@@ -10,6 +10,7 @@
     "migrate:up": "dotenv -e .env -- node-pg-migrate up --migrations-dir migrations --database-url-var DATABASE_URL",
     "migrate:down": "dotenv -e .env -- node-pg-migrate down --migrations-dir migrations --database-url-var DATABASE_URL",
     "migrate:test": "dotenv -e .env -- node-pg-migrate up --migrations-dir migrations --database-url-var DATABASE_URL_TEST",
+    "migrate:up:prod": "node-pg-migrate up --migrations-dir migrations --database-url-var DATABASE_URL",
     "lint": "biome check src test",
     "lint:fix": "biome check --write src test",
     "test": "vitest",
