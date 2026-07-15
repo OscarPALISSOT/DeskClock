@@ -1,7 +1,23 @@
 services:
+  postgres:
+    ports:
+      - "5432:5432"
+
+  postgres_test:
+    container_name: database-deskclock-test
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+
   adminer:
     container_name: adminer-deskclock
     image: adminer
-    restart: always
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
     ports:
       - "8080:8080"
