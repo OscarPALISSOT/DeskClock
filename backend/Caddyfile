@@ -1,3 +1,3 @@
 http://backend.deskclock.oscarpalissot.fr, http://www.backend.deskclock.oscarpalissot.fr {
-  reverse_proxy ....
+  reverse_proxy backend:3000
 }
