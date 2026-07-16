@@ -1,0 +1,47 @@
+services:
+  backend:
+    container_name: backend-deskclock
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      REFRESH_TOKEN_EXPIRES_IN: ${REFRESH_TOKEN_EXPIRES_IN}
+      NODE_ENV: production
+      PORT: 3000
+
+  adminer:
+    container_name: adminer-deskclock
+    image: adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - "127.0.0.1:8080:8080"
+      
+  reverse-proxy-deskclock:
+    container_name: reverse-proxy-deskclock
+    image: caddy:2-alpine
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - default
+      - edge
+
+networks:
+  edge:
+    external: true
+    name: edge-network
+
+volumes:
+  caddy_data:
+  caddy_config:

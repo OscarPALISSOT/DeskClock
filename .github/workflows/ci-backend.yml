@@ -5,6 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   ci:
@@ -36,14 +37,24 @@ jobs:
 
       - name: Detect changed paths
         id: filter
+        if: github.event_name == 'pull_request'
         uses: dorny/paths-filter@v3
         with:
           filters: |
             backend:
               - 'backend/**'
 
+      - name: Decide if backend steps need to run
+        id: gate
+        run: |
+          if [[ "${{ github.event_name }}" != "pull_request" || "${{ steps.filter.outputs.backend }}" == "true" ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup Node.js
-        if: steps.filter.outputs.backend == 'true'
+        if: steps.gate.outputs.run == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -51,21 +62,21 @@ jobs:
           cache-dependency-path: backend/package-lock.json
 
       - name: Install dependencies
-        if: steps.filter.outputs.backend == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: npm ci
 
       - name: Lint (Biome)
-        if: steps.filter.outputs.backend == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: npm run lint
 
       - name: Run migrations
-        if: steps.filter.outputs.backend == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: npm run migrate:test
         env:
           DATABASE_URL_TEST: postgres://deskclock:deskclock@localhost:5432/deskclock_test
 
       - name: Run tests
-        if: steps.filter.outputs.backend == 'true'
+        if: steps.gate.outputs.run == 'true'
         run: npm run test:run
         env:
           DATABASE_URL_TEST: postgres://deskclock:deskclock@localhost:5432/deskclock_test
