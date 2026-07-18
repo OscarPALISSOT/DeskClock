@@ -15,7 +15,7 @@ final class APIClient {
     private let decoder: JSONDecoder
     
     private init() {
-        self.baseURL = URL(string: "http://192.168.1.145:3000/v1/")!
+        self.baseURL = URL(string: "https://backend.deskclock.oscarpalissot.fr/v1/")!
         self.session = .shared
         
         self.decoder = JSONDecoder()

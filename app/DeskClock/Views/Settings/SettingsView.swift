@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(AuthService.self) private var authService
+    
     var body: some View {
         NavigationStack {
-            ContentUnavailableView(
-                "Réglages",
-                systemImage: "gear",
-                description: Text("Les réglages apparaîtront ici")
-            )
+            List {
+                Section {
+                    Button("Se déconnecter", role: .destructive) {
+                        authService.logout()
+                    }
+                }
+            }
             .navigationTitle("Réglages")
         }
     }
