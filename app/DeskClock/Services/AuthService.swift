@@ -49,6 +49,8 @@ class AuthService: NSObject {
     }
 }
 
+
+// for sign in with apple, to updated
 extension AuthService: ASAuthorizationControllerDelegate {
     func authorizationController(
         controller: ASAuthorizationController,
