@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: ci
     steps:
-      - name: Pull, migrate, relance
+      - name: Pull, migrate, restart
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -31,3 +31,4 @@ jobs:
             docker compose -f docker-compose.yml -f docker-compose.prod.yml build backend
             docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm backend npm run migrate:up:prod
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --remove-orphans
+            docker exec reverse-proxy-deskclock caddy reload --config /etc/caddy/Caddyfile
