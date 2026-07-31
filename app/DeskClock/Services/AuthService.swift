@@ -16,7 +16,14 @@ class AuthService: NSObject {
         let token = try? KeychainService.read(.accessToken)
         isAuthenticated = token != nil
         super.init()
-        DebugLoggerService.shared.log(isAuthenticated ? "🔑 Token trouvé au lancement" : "🚫 Aucun token au lancement")
+        DebugLoggerService.shared.log(isAuthenticated ? "Token found at launch" : "No token found at launch")
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleAuthExpired),
+            name: .authDidExpire,
+            object: nil
+        )
     }
     
     func login(email: String, password: String) async throws {
@@ -39,6 +46,16 @@ class AuthService: NSObject {
         isAuthenticated = false
     }
     
+    @objc private func handleAuthExpired() {
+        DebugLoggerService.shared.log("Forced deconnexion, refresh failed")
+        isAuthenticated = false
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // for sign in with apple, to updated
     func signInWithApple() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
@@ -50,7 +67,6 @@ class AuthService: NSObject {
         controller.performRequests()
     }
 }
-
 
 // for sign in with apple, to updated
 extension AuthService: ASAuthorizationControllerDelegate {

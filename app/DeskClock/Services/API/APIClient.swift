@@ -14,6 +14,8 @@ final class APIClient {
     private let session: URLSession
     private let decoder: JSONDecoder
     
+    private let tokenRefresher = TokenRefresher()
+    
     private init() {
         self.baseURL = URL(string: "https://backend.deskclock.oscarpalissot.fr/v1/")!
         self.session = .shared
@@ -25,7 +27,8 @@ final class APIClient {
     private func request<T: Decodable>(
         _ path: String,
         method: String = "GET",
-        body: Encodable? = nil
+        body: Encodable? = nil,
+        isRetryAfterRefresh: Bool = false
     ) async throws -> T {
         guard let url = URL(string: path, relativeTo: baseURL) else {
             throw APIError.invalidURL
@@ -62,8 +65,20 @@ final class APIClient {
                 throw APIError.decodingError(error)
             }
         case 401:
-            DebugLoggerService.shared.log("🚫 401 Unauthorized sur \(path)")
-            throw APIError.unauthorized
+            guard !isRetryAfterRefresh else {
+                DebugLoggerService.shared.log("401 persisting after refresh on \(path) — dead refresh token, deconnexion")
+                await forceLogout()
+                throw APIError.unauthorized
+            }
+            DebugLoggerService.shared.log("401 on \(path) — refresh attempt")
+            do {
+                try await tokenRefresher.refresh()
+            } catch {
+                DebugLoggerService.shared.log("Refresh failed — \(error)")
+                await forceLogout()
+                throw APIError.unauthorized
+            }
+            return try await request(path, method: method, body: body, isRetryAfterRefresh: true)
         default:
             let message = try? JSONDecoder().decode(APIErrorResponse.self, from: data)
             throw APIError.httpError(statusCode: http.statusCode, message: message?.message)
@@ -77,7 +92,7 @@ final class APIClient {
         }
         return try await request("auth/email/login", method: "POST", body: Body(email: email, password: password))
     }
-
+    
     func register(email: String, password: String) async throws -> AuthResponseDTO {
         struct Body: Encodable {
             let email: String
@@ -118,6 +133,47 @@ final class APIClient {
         }
         let dto: SessionDTO = try await request("sessions/\(sessionId)", method: "PATCH", body: Body(date: endedAt))
         return dto.toDomain()
+    }
+    
+    private func forceLogout() async {
+        try? KeychainService.delete(.accessToken)
+        try? KeychainService.delete(.refreshToken)
+        await MainActor.run {
+            NotificationCenter.default.post(name: .authDidExpire, object: nil)
+        }
+    }
+
+    func refreshToken(_ refreshToken: String) async throws -> AuthResponseDTO {
+        struct Body: Encodable {
+            let refresh_token: String
+        }
+        return try await request("auth/refresh", method: "POST", body: Body(refresh_token: refreshToken), isRetryAfterRefresh: true)
+    }
+}
+
+extension Notification.Name {
+    static let authDidExpire = Notification.Name("authDidExpire")
+}
+
+actor TokenRefresher {
+    private var inFlight: Task<Void, Error>?
+    
+    func refresh() async throws {
+        if let inFlight {
+            try await inFlight.value
+            return
+        }
+        let task = Task<Void, Error> {
+            guard let currentRefreshToken = try? KeychainService.read(.refreshToken) else {
+                throw APIError.unauthorized
+            }
+            let dto = try await APIClient.shared.refreshToken(currentRefreshToken)
+            try KeychainService.save(dto.access_token, for: .accessToken)
+            try KeychainService.save(dto.refresh_token, for: .refreshToken)
+        }
+        inFlight = task
+        defer { inFlight = nil }
+        try await task.value
     }
 }
 
