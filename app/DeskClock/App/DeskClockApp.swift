@@ -12,6 +12,10 @@ struct DeskClockApp: App {
     @State private var authService = AuthService()
     @State private var locationService = LocationService()
     
+    init() {
+        DebugLoggerService.shared.log("═══════ App lancée (process démarré) ═══════")
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

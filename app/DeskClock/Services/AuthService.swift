@@ -15,6 +15,8 @@ class AuthService: NSObject {
     override init() {
         let token = try? KeychainService.read(.accessToken)
         isAuthenticated = token != nil
+        super.init()
+        DebugLoggerService.shared.log(isAuthenticated ? "🔑 Token trouvé au lancement" : "🚫 Aucun token au lancement")
     }
     
     func login(email: String, password: String) async throws {
