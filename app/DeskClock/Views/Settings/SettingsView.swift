@@ -14,6 +14,11 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 Section {
+                    NavigationLink("Logs de debug") {
+                        DebugLogView()
+                    }
+                }
+                Section {
                     Button("Se déconnecter", role: .destructive) {
                         authService.logout()
                     }

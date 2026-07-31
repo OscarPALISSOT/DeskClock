@@ -62,6 +62,7 @@ final class APIClient {
                 throw APIError.decodingError(error)
             }
         case 401:
+            DebugLoggerService.shared.log("🚫 401 Unauthorized sur \(path)")
             throw APIError.unauthorized
         default:
             let message = try? JSONDecoder().decode(APIErrorResponse.self, from: data)
