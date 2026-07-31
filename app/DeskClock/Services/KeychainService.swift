@@ -23,13 +23,19 @@ enum KeychainError: Error {
 }
 
 struct KeychainService {
-    static func save(_ value: String, for key: KeychainKey) throws {
+    // Keychain access is a synchronous system call with no inherent actor
+    // affinity. Marked nonisolated so it can be called from any isolation
+    // domain (main actor, custom actors, background tasks) without
+    // requiring an await for actor hopping.
+    nonisolated static func save(_ value: String, for key: KeychainKey) throws {
         let data = Data(value.utf8)
         
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key.rawValue,
-            kSecValueData as String:   data
+            kSecValueData as String:   data,
+            // allow to read the token while phone is locked, clock in or out triggered by goefencing
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock
         ]
         let status = SecItemAdd(query as CFDictionary, nil)
         
@@ -44,7 +50,7 @@ struct KeychainService {
         }
     }
     
-    static func read(_ key: KeychainKey) throws -> String {
+    nonisolated static func read(_ key: KeychainKey) throws -> String {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key.rawValue,
@@ -63,13 +69,16 @@ struct KeychainService {
             }
             return string
         case errSecItemNotFound:
+            // Note: this status is also returned when the item exists but
+            // its accessibility class prevents access in the current device
+            // state (e.g. locked). Indistinguishable from true absence.
             throw KeychainError.notFound
         default:
             throw KeychainError.readFailed(status)
         }
     }
     
-    static func delete(_ key: KeychainKey) throws {
+    nonisolated static func delete(_ key: KeychainKey) throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: key.rawValue,
