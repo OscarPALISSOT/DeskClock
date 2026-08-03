@@ -66,15 +66,21 @@ final class APIClient {
             }
         case 401:
             guard !isRetryAfterRefresh else {
-                DebugLoggerService.shared.log("401 persisting after refresh on \(path) — dead refresh token, deconnexion")
+                DebugLoggerService.shared.log("Persistent 401 after refresh on \(path) — server rejected refresh token, logging out")
                 await forceLogout()
                 throw APIError.unauthorized
             }
-            DebugLoggerService.shared.log("401 on \(path) — refresh attempt")
+            DebugLoggerService.shared.log("401 on \(path) — attempting refresh")
             do {
                 try await tokenRefresher.refresh()
+            } catch RefreshError.noLocalRefreshToken {
+                DebugLoggerService.shared.log("Refresh skipped — local refresh token unreadable")
+                throw APIError.unauthorized
+            } catch RefreshError.connectivityFailure(let underlying) {
+                DebugLoggerService.shared.log("Refresh skipped — network unreachable")
+                throw APIError.networkError(underlying)
             } catch {
-                DebugLoggerService.shared.log("Refresh failed — \(error)")
+                DebugLoggerService.shared.log("Refresh rejected by server — \(error)")
                 await forceLogout()
                 throw APIError.unauthorized
             }
@@ -142,7 +148,7 @@ final class APIClient {
             NotificationCenter.default.post(name: .authDidExpire, object: nil)
         }
     }
-
+    
     func refreshToken(_ refreshToken: String) async throws -> AuthResponseDTO {
         struct Body: Encodable {
             let refresh_token: String
@@ -155,6 +161,12 @@ extension Notification.Name {
     static let authDidExpire = Notification.Name("authDidExpire")
 }
 
+enum RefreshError: Error {
+    case connectivityFailure(Error) // couldn't reach the server at all
+    case noLocalRefreshToken   // local Keychain read failed — says nothing about whether the token is actually valid
+    case serverRejected(Error) // server explicitly rejected the refresh token
+}
+
 actor TokenRefresher {
     private var inFlight: Task<Void, Error>?
     
@@ -165,11 +177,17 @@ actor TokenRefresher {
         }
         let task = Task<Void, Error> {
             guard let currentRefreshToken = try? KeychainService.read(.refreshToken) else {
-                throw APIError.unauthorized
+                throw RefreshError.noLocalRefreshToken
             }
-            let dto = try await APIClient.shared.refreshToken(currentRefreshToken)
-            try KeychainService.save(dto.access_token, for: .accessToken)
-            try KeychainService.save(dto.refresh_token, for: .refreshToken)
+            do {
+                let dto = try await APIClient.shared.refreshToken(currentRefreshToken)
+                try KeychainService.save(dto.access_token, for: .accessToken)
+                try KeychainService.save(dto.refresh_token, for: .refreshToken)
+            } catch APIError.networkError(let underlying) {
+                throw RefreshError.connectivityFailure(underlying)
+            } catch {
+                throw RefreshError.serverRejected(error)
+            }
         }
         inFlight = task
         defer { inFlight = nil }
