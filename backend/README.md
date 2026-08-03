@@ -22,8 +22,17 @@ Ce répertoire contient le backend de DeskClock. Il expose les endpoints consomm
 
 ## Stack
 
-| Couche | Technologie | Pourquoi |
-|--------|-------------|----------|
+| Couche | Technologie |
+|--------|-------------|
+| Runtime | Node.js 22, TypeScript |
+| Framework HTTP | Fastify 5 |
+| Validation | Zod |
+| Base de données | PostgreSQL 16 |
+| Driver DB | postgres.js |
+| Migrations | node-pg-migrate |
+| Auth | JWT (email / mot de passe) |
+| Tests | Vitest |
+| Déploiement | Docker, VPS |
 
 todo
 
@@ -35,8 +44,8 @@ todo
 erDiagram
     users {
         uuid id PK
-        text apple_sub UK "identifiant Apple unique"
-        text email "nullable"
+        text email UK "identifiant de connexion"
+        text password_hash
         timestamptz created_at
     }
 
@@ -133,16 +142,8 @@ Content-Type: application/json
 sequenceDiagram
     participant iPhone
     participant API
-    participant Apple
 
-    iPhone->>Apple: Sign in with Apple
-    Apple-->>iPhone: identityToken (JWT signé Apple)
-
-    iPhone->>API: POST /auth/apple { identity_token }
-    API->>Apple: GET /auth/keys (JWKS)
-    Apple-->>API: Clés publiques
-    API->>API: Vérifie signature + audience + expiration
-    API->>API: Crée ou retrouve l'utilisateur (upsert sur apple_sub)
+    iPhone->>API: POST /auth/email/login { email, password }
     API-->>iPhone: { access_token (1h), refresh_token (30j) }
 
     Note over iPhone,API: Requêtes suivantes
@@ -150,8 +151,11 @@ sequenceDiagram
     API-->>iPhone: 200 OK
 
     Note over iPhone,API: access_token expiré
+    iPhone->>API: Bearer access_token
+    API-->>iPhone: 401
     iPhone->>API: POST /auth/refresh { refresh_token }
     API-->>iPhone: { access_token (nouveau), refresh_token (nouveau) }
+    iPhone->>API: Requête initiale rejouée
 ```
 
 > Le refresh token est **rotation-based** : à chaque renouvellement, l'ancien est invalidé et un nouveau est émis. En base, on stocke le hash du token (pas la valeur brute).
