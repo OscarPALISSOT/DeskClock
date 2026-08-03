@@ -22,15 +22,15 @@ DeskClock détecte automatiquement quand tu arrives et repars du bureau, sans au
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  Tu arrives au bureau                                   │
-│  → iPhone détecte la zone géographique                  │
-│  → App envoie POST /sessions au backend                 │
-│  → Widget se rafraîchit, affiche l'heure d'arrivée      │
+│ Arrivée au bureau                                       │
+│ → Détection de la zone géographique par l'iPhone        │
+│ → Envoi de POST /sessions au backend                    │
+│ → Widget rafraîchi, heure d'arrivée affichée            │
 │                                                         │
-│  Tu repars                                              │
-│  → iPhone détecte la sortie de zone                     │
-│  → App envoie PATCH /sessions/:id                       │
-│  → Widget affiche la durée de la journée                │
+│ Départ du bureau                                        │
+│ → Détection de la sortie de zone par l'iPhone           │
+│ → Envoi de PATCH /sessions/:id                          │
+│ → Durée de la journée affichée sur le widget            │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -40,25 +40,21 @@ DeskClock détecte automatiquement quand tu arrives et repars du bureau, sans au
 
 ```mermaid
 graph TB
-    subgraph iPhone["📱 iPhone"]
+    subgraph iPhone["iPhone"]
         CL["Core Location\nGéofencing"]
         APP["App SwiftUI\nSessionViewModel"]
         WGT["Widget\nWidgetKit"]
     end
 
-    subgraph VPS["🖥️  VPS"]
+    subgraph VPS["VPS"]
         API["Fastify API\nNode.js + TypeScript"]
         DB[("PostgreSQL")]
     end
 
-    subgraph Apple["🍎 Apple"]
-        JWKS["Apple JWKS\nValidation token"]
-    end
-
     CL -->|"didEnterRegion\ndidExitRegion"| APP
     APP -->|"POST /sessions\nPATCH /sessions/:id"| API
-    WGT -->|"GET /sessions\n(toutes les 30 min)"| API
-    API -->|"Vérifie token\n(Sign in with Apple)"| JWKS
+    APP -->|"Bearer JWT"| API
+    WGT -->|"GET /sessions"| API
     API <-->|"SQL"| DB
 ```
 
@@ -66,19 +62,15 @@ graph TB
 
 ## Stack technique
 
-| Couche | Technologie | Pourquoi |
-|--------|-------------|----------|
-| **Runtime** | Node.js 22 + TypeScript | Typage strict, async/await natif |
-| **Framework HTTP** | Fastify 5 | Perf supérieure à Express, validation JSON intégrée |
-| **Validation** | Zod | Schémas colocalisés avec les types TypeScript |
-| **Base de données** | PostgreSQL 16 | TIMESTAMPTZ natif, fiable, SQL standard |
-| **Driver DB** | postgres.js | Pool de connexions, tagged template literals |
-| **Migrations** | node-pg-migrate | Versionnées, réversibles |
-| **Auth** | Sign in with Apple + JWT | Standard iOS, pas de mot de passe à gérer |
-| **iOS** | SwiftUI + Swift 5.10 | Framework actuel Apple, déclaratif |
-| **Widget** | WidgetKit | Écran d'accueil et Dynamic Island |
-| **Géofencing** | Core Location | Détection en background, faible consommation |
-| **Déploiement** | Docker + VPS | Contrôle total, zéro coût cloud |
+| Couche | Technologie |
+|--------|-------------|
+| Backend | Node.js, Fastify 5, TypeScript |
+| Base de données | PostgreSQL |
+| Auth | JWT (email / mot de passe) |
+| iOS | Swift, SwiftUI |
+| Géofencing | Core Location |
+| Widget | WidgetKit (à venir) |
+| Déploiement | Docker, VPS |
 
 ---
 
@@ -86,17 +78,19 @@ graph TB
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Dehors
+    [*] --> Outside
 
-    Dehors --> ArrivéeDetectée : didEnterRegion\n(iOS, background)
-    ArrivéeDetectée --> EnSession : POST /sessions\n(started_at = now)
-    EnSession --> DépartDetecté : didExitRegion\n(iOS, background)
-    DépartDetecté --> Dehors : PATCH /sessions/:id\n(ended_at = now)
+    Outside --> EntryDetected: didEnterRegion / didDetermineState(inside)
+    EntryDetected --> InSession: POST /sessions réussi (retry si échec transitoire)
+    InSession --> ExitDetected: didExitRegion / didDetermineState(outside)
+    ExitDetected --> Outside: PATCH /sessions/:id réussi (retry si échec transitoire)
 
-    EnSession --> EnSession : Widget poll\ntoutes les 30 min
+    InSession --> InSession: Lancement de l'app réconciliation, pas de doublon
 ```
 
-Core Location surveille une zone circulaire (`CLCircularRegion`) autour du bureau. iOS réveille l'app en background à l'entrée et à la sortie — sans GPS continu, donc sans impact notable sur la batterie. Le rayon recommandé est de **50 à 100 mètres**.
+Core Location surveille une zone circulaire (`CLCircularRegion`) autour du bureau. iOS réveille l'app en arrière-plan à l'entrée et à la sortie — sans GPS continu, donc sans impact notable sur la batterie. Rayon retenu : 80 mètres.
+
+Chaque tentative de clock-in/clock-out dispose de nouvelles tentatives bornées en cas d'échec transitoire (réseau, token), dans la fenêtre accordée par la background task assertion. Le détail de cette logique est documenté dans le [README de l'app iOS](apps/ios/README.md).
 
 ---
 

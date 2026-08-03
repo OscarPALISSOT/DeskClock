@@ -117,6 +117,9 @@ final class LocationService: NSObject {
         }
     }
     
+    // Treats network and auth failures as worth a short retry.
+    // After the refresh-flow fix, both can result from a local hiccup (bad connectivity, Keychain read failing at the wrong moment) rather than a permanent problem with the request itself.
+    // A genuine rejection surfaces later, after retries are exhausted, and is not retried further.
     private func isTransient(_ error: APIError) -> Bool {
         switch error {
         case .networkError, .unauthorized: return true
