@@ -6,12 +6,67 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		27C38CF1301FAB09001FD7EE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C38CF0301FAB08001FD7EE /* WidgetKit.framework */; };
+		27C38CF3301FAB09001FD7EE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C38CF2301FAB09001FD7EE /* SwiftUI.framework */; };
+		27C38D02301FAB0A001FD7EE /* DeskClockWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 27C38CEE301FAB08001FD7EE /* DeskClockWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		27C38D00301FAB0A001FD7EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2740C0452FE4A1A2005420C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27C38CED301FAB08001FD7EE;
+			remoteInfo = DeskClockWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		27C38D03301FAB0A001FD7EE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				27C38D02301FAB0A001FD7EE /* DeskClockWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		27672E7E2FFF0E3F00945B06 /* OfficeInside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OfficeInside.gpx; path = ../TestGeoFencing/OfficeInside.gpx; sourceTree = "<group>"; };
 		27672E7F2FFF0E4600945B06 /* OfficeOutside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OfficeOutside.gpx; path = ../TestGeoFencing/OfficeOutside.gpx; sourceTree = "<group>"; };
 		278B8FE72FE5FB4D00A8509A /* DeskClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "DeskClock-Info.plist"; sourceTree = "<group>"; };
+		27C38CEE301FAB08001FD7EE /* DeskClockWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeskClockWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		27C38CF0301FAB08001FD7EE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		27C38CF2301FAB09001FD7EE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		27C38D08301FAC11001FD7EE /* DeskClock.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeskClock.entitlements; sourceTree = "<group>"; };
+		27C38D09301FAC39001FD7EE /* DeskClockWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeskClockWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		27C38D06301FAB0A001FD7EE /* Exceptions for "DeskClockWidget" folder in "DeskClockWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */;
+		};
+		27C38D0B301FAD50001FD7EE /* Exceptions for "Services" folder in "DeskClockWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				API/APIClient.swift,
+				API/APIError.swift,
+				DebugLoggerService.swift,
+				KeychainService.swift,
+			);
+			target = 27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2740C0672FE5EFA3005420C4 /* Views */ = {
@@ -36,12 +91,23 @@
 		};
 		2740C06C2FE5F001005420C4 /* Services */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				27C38D0B301FAD50001FD7EE /* Exceptions for "Services" folder in "DeskClockWidgetExtension" target */,
+			);
 			path = Services;
 			sourceTree = "<group>";
 		};
 		278B8FEE2FE5FBED00A8509A /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		27C38CF4301FAB09001FD7EE /* DeskClockWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				27C38D06301FAB0A001FD7EE /* Exceptions for "DeskClockWidget" folder in "DeskClockWidgetExtension" target */,
+			);
+			path = DeskClockWidget;
 			sourceTree = "<group>";
 		};
 		27C38D4F3022945F001FD7EE /* Config */ = {
@@ -59,12 +125,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		27C38CEB301FAB08001FD7EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27C38CF3301FAB09001FD7EE /* SwiftUI.framework in Frameworks */,
+				27C38CF1301FAB09001FD7EE /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2740C0442FE4A1A2005420C4 = {
 			isa = PBXGroup;
 			children = (
+				27C38D09301FAC39001FD7EE /* DeskClockWidgetExtension.entitlements */,
+				27C38D08301FAC11001FD7EE /* DeskClock.entitlements */,
 				27672E7F2FFF0E4600945B06 /* OfficeOutside.gpx */,
 				27672E7E2FFF0E3F00945B06 /* OfficeInside.gpx */,
 				27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */,
@@ -76,7 +153,19 @@
 				2740C06B2FE5EFF9005420C4 /* Models */,
 				2740C06A2FE5EFDA005420C4 /* ViewsModels */,
 				278B8FE72FE5FB4D00A8509A /* DeskClock.app */,
+				27C38CEE301FAB08001FD7EE /* DeskClockWidgetExtension.appex */,
+				27C38CF4301FAB09001FD7EE /* DeskClockWidget */,
+				27C38CEF301FAB08001FD7EE /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		27C38CEF301FAB08001FD7EE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				27C38CF0301FAB08001FD7EE /* WidgetKit.framework */,
+				27C38CF2301FAB09001FD7EE /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,10 +178,12 @@
 				2740C0492FE4A1A2005420C4 /* Sources */,
 				2740C04A2FE4A1A2005420C4 /* Frameworks */,
 				2740C04B2FE4A1A2005420C4 /* Resources */,
+				27C38D03301FAB0A001FD7EE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				27C38D01301FAB0A001FD7EE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2740C0672FE5EFA3005420C4 /* Views */,
@@ -110,6 +201,29 @@
 			productReference = 278B8FE72FE5FB4D00A8509A /* DeskClock.app */;
 			productType = "com.apple.product-type.application";
 		};
+		27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27C38D07301FAB0A001FD7EE /* Build configuration list for PBXNativeTarget "DeskClockWidgetExtension" */;
+			buildPhases = (
+				27C38CEA301FAB08001FD7EE /* Sources */,
+				27C38CEB301FAB08001FD7EE /* Frameworks */,
+				27C38CEC301FAB08001FD7EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2740C06B2FE5EFF9005420C4 /* Models */,
+				27C38CF4301FAB09001FD7EE /* DeskClockWidget */,
+			);
+			name = DeskClockWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = DeskClockWidgetExtension;
+			productReference = 27C38CEE301FAB08001FD7EE /* DeskClockWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -117,11 +231,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2650;
+				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					2740C04C2FE4A1A2005420C4 = {
 						CreatedOnToolsVersion = 26.5;
+					};
+					27C38CED301FAB08001FD7EE = {
+						CreatedOnToolsVersion = 26.6;
 					};
 				};
 			};
@@ -141,12 +258,20 @@
 			projectRoot = "";
 			targets = (
 				2740C04C2FE4A1A2005420C4 /* DeskClock */,
+				27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2740C04B2FE4A1A2005420C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		27C38CEC301FAB08001FD7EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -163,7 +288,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		27C38CEA301FAB08001FD7EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		27C38D01301FAB0A001FD7EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */;
+			targetProxy = 27C38D00301FAB0A001FD7EE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2740C0562FE4A1A3005420C4 /* Debug */ = {
@@ -294,6 +434,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DeskClock.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -334,6 +475,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DeskClock.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -367,6 +509,70 @@
 			};
 			name = Release;
 		};
+		27C38D04301FAB0A001FD7EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DeskClockWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P683RYJU8U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeskClockWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeskClockWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oscarpalissot.DeskClock.DeskClockWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		27C38D05301FAB0A001FD7EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DeskClockWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P683RYJU8U;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeskClockWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeskClockWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.oscarpalissot.DeskClock.DeskClockWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -384,6 +590,15 @@
 			buildConfigurations = (
 				2740C0592FE4A1A3005420C4 /* Debug */,
 				2740C05A2FE4A1A3005420C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		27C38D07301FAB0A001FD7EE /* Build configuration list for PBXNativeTarget "DeskClockWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				27C38D04301FAB0A001FD7EE /* Debug */,
+				27C38D05301FAB0A001FD7EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
