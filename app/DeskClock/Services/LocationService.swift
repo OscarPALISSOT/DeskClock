@@ -12,7 +12,7 @@ import UIKit
 @Observable
 final class LocationService: NSObject {
     private let manager = CLLocationManager()
-    private let officeCenter = CLLocationCoordinate2D(latitude: 45.188323, longitude: 5.712538)
+    private let officeCenter = Config.officeCoordinate
     private let officeRadius: CLLocationDistance = 80
     
     private(set) var authorizationStatus: CLAuthorizationStatus
