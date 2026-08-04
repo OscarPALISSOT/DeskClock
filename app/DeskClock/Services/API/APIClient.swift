@@ -17,7 +17,7 @@ final class APIClient {
     private let tokenRefresher = TokenRefresher()
     
     private init() {
-        self.baseURL = URL(string: "https://backend.deskclock.oscarpalissot.fr/v1/")!
+        self.baseURL = Config.apiBaseURL
         self.session = .shared
         
         self.decoder = JSONDecoder()

@@ -6,3 +6,6 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 .DS_Store
+
+#Env
+*.xcconfig

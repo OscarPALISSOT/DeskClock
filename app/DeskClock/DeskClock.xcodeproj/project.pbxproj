@@ -44,6 +44,11 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		27C38D4F3022945F001FD7EE /* Config */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +68,7 @@
 				27672E7F2FFF0E4600945B06 /* OfficeOutside.gpx */,
 				27672E7E2FFF0E3F00945B06 /* OfficeInside.gpx */,
 				27AA12FA2FEC888E007B9FC1 /* DeskClock-Info.plist */,
+				27C38D4F3022945F001FD7EE /* Config */,
 				278B8FEE2FE5FBED00A8509A /* Resources */,
 				2740C0682FE5EFB3005420C4 /* App */,
 				2740C0672FE5EFA3005420C4 /* Views */,
@@ -95,6 +101,7 @@
 				2740C06B2FE5EFF9005420C4 /* Models */,
 				2740C06C2FE5F001005420C4 /* Services */,
 				278B8FEE2FE5FBED00A8509A /* Resources */,
+				27C38D4F3022945F001FD7EE /* Config */,
 			);
 			name = DeskClock;
 			packageProductDependencies = (
@@ -119,11 +126,12 @@
 				};
 			};
 			buildConfigurationList = 2740C0482FE4A1A2005420C4 /* Build configuration list for PBXProject "DeskClock" */;
-			developmentRegion = en;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 2740C0442FE4A1A2005420C4;
 			minimizedProjectReferenceProxies = 1;
@@ -281,6 +289,8 @@
 		};
 		2740C0592FE4A1A3005420C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 27C38D4F3022945F001FD7EE /* Config */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -319,6 +329,8 @@
 		};
 		2740C05A2FE4A1A3005420C4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 27C38D4F3022945F001FD7EE /* Config */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
