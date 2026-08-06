@@ -198,15 +198,13 @@ cp .env.example .env
 # Lancer la DB PostgreSQL
 docker compose up -d
 
-todo
+# lancer le serveur de dev
+npm run dev
 ```
 
-### Déploiement VPS
+### Déploiement / Release
 
-```bash
-# Depuis la racine du monorepo, sur le VPS
-todo
-```
+Github action `Backend deployement` qui gére le déploiement.
 
 ---
 
