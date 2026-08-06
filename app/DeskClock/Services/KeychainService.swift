@@ -31,7 +31,7 @@ struct KeychainService {
     // account-identifying lives in source control.
     private static let groupSuffix = "fr.oscarpalissot.deskclock.shared"
     
-    private static let accessGroup: String = {
+    private nonisolated static let accessGroup: String = {
         guard let teamID = resolveTeamIDPrefix() else {
             fatalError("Unable to resolve Keychain Team ID — check Keychain Sharing capability")
         }
@@ -41,14 +41,14 @@ struct KeychainService {
     // Writes a throwaway probe item WITHOUT an explicit access group, so
     // the system assigns its default group ("<TeamID>.<bundleID>"), then
     // reads that back to extract the Team ID. Runs once per process.
-    private static func resolveTeamIDPrefix() -> String? {
+    private nonisolated static func resolveTeamIDPrefix() -> String? {
         let probeAccount = "deskclock.keychain-probe"
         
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: probeAccount,
             kSecValueData as String: Data("probe".utf8),
-            kSecReturnAttributes as String: true
+            kSecReturnAttributes as String: true // ask for attributes back, not just success/failure
         ]
         
         SecItemDelete(query as CFDictionary) // clean slate
@@ -58,8 +58,11 @@ struct KeychainService {
         
         guard status == errSecSuccess,
               let attributes = result as? [String: Any],
+              // This is the payoff: the group iOS actually assigned, in clear text.
               let defaultGroup = attributes[kSecAttrAccessGroup as String] as? String,
-              let teamID = defaultGroup.split(separator: ".").first else {
+              // Team IDs never contain a dot, so splitting on the first one
+              // isolates it regardless of what the bundle ID looks like.
+                let teamID = defaultGroup.split(separator: ".").first else {
             return nil
         }
         

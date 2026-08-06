@@ -66,6 +66,20 @@
 			);
 			target = 27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */;
 		};
+		27C38E853022A26E001FD7EE /* Exceptions for "Models" folder in "DeskClockWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"View+Keyboard.swift",
+			);
+			target = 27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */;
+		};
+		27C38E873022A29A001FD7EE /* Exceptions for "Config" folder in "DeskClockWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Config.swift,
+			);
+			target = 27C38CED301FAB08001FD7EE /* DeskClockWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -86,6 +100,9 @@
 		};
 		2740C06B2FE5EFF9005420C4 /* Models */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				27C38E853022A26E001FD7EE /* Exceptions for "Models" folder in "DeskClockWidgetExtension" target */,
+			);
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -112,6 +129,9 @@
 		};
 		27C38D4F3022945F001FD7EE /* Config */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				27C38E873022A29A001FD7EE /* Exceptions for "Config" folder in "DeskClockWidgetExtension" target */,
+			);
 			path = Config;
 			sourceTree = "<group>";
 		};
@@ -249,6 +269,7 @@
 				en,
 				Base,
 				fr,
+				es,
 			);
 			mainGroup = 2740C0442FE4A1A2005420C4;
 			minimizedProjectReferenceProxies = 1;
@@ -511,6 +532,8 @@
 		};
 		27C38D04301FAB0A001FD7EE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 27C38D4F3022945F001FD7EE /* Config */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
@@ -543,6 +566,8 @@
 		};
 		27C38D05301FAB0A001FD7EE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 27C38D4F3022945F001FD7EE /* Config */;
+			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;

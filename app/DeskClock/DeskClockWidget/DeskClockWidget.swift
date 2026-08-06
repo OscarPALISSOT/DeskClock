@@ -16,33 +16,6 @@ struct DeskClockEntry: TimelineEntry {
     let weekTotalSeconds: TimeInterval
 }
 
-struct DeskClockProvider: TimelineProvider {
-
-    func placeholder(in context: Context) -> DeskClockEntry {
-        DeskClockEntry(date: .now, isAuthenticated: true, todayStartedAt: .now, weekTotalSeconds: 14_400)
-    }
-
-    func getSnapshot(in context: Context, completion: @escaping (DeskClockEntry) -> Void) {
-        completion(placeholder(in: context))
-    }
-
-    func getTimeline(in context: Context, completion: @escaping (Timeline<DeskClockEntry>) -> Void) {
-        // TODO: real Keychain read + API call, next step.
-        let entry = placeholder(in: context)
-        completion(Timeline(entries: [entry], policy: .after(.now.addingTimeInterval(3600))))
-    }
-}
-
-struct DeskClockWidgetEntryView: View {
-    var entry: DeskClockProvider.Entry
-
-    var body: some View {
-        VStack {
-            Text("DeskClock")
-            Text(entry.date, style: .time)
-        }
-    }
-}
 
 struct DeskClockWidget: Widget {
     let kind: String = "DeskClockWidget"

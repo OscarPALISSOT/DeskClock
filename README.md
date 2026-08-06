@@ -12,7 +12,6 @@ Un projet perso exploratoire qui couvre plusieurs sujets techniques en un seul e
 - [Architecture globale](#architecture-globale)
 - [Stack technique](#stack-technique)
 - [Détection de présence (géofencing)](#détection-de-présence-géofencing)
-- [Installation & lancement](#installation--lancement)
 
 ---
 
@@ -92,39 +91,6 @@ Core Location surveille une zone circulaire (`CLCircularRegion`) autour du burea
 
 Chaque tentative de clock-in/clock-out dispose de nouvelles tentatives bornées en cas d'échec transitoire (réseau, token), dans la fenêtre accordée par la background task assertion. Le détail de cette logique est documenté dans le [README de l'app iOS](apps/ios/README.md).
 
----
-
-## Installation & lancement
-
-### Prérequis
-
-todo
-
-### Backend en local
-
-```bash
-# Cloner le repo
-git clone https://github.com/OscarPALISSOT/DeskClock.git
-cd deskclock
-
-# Variables d'environnement
-cp .env.example .env
-# → Renseigner DATABASE_URL, JWT_SECRET, APPLE_CLIENT_ID
-
-
-todo
-```
-
-### Déploiement VPS
-
-```bash
-# Sur le VPS
-todo
-```
-
-### App iOS
-
-todo
 
 > **Sans Apple Developer Program :** le certificat expire tous les 7 jours. Re-signer en rebranchant l'iPhone et en relançant `⌘R`, ou utiliser [AltStore](https://altstore.io/) pour la re-signature automatique via Wi-Fi.
 
@@ -133,9 +99,7 @@ todo
 ## IA & process
 
 Ce projet est aussi une expérimentation volontaire de **Claude** (Anthropic, version gratuite,
-interface chat) comme outil de développement. L'objectif : passer moins de temps sur la
-documentation et la recherche pour me concentrer sur l'apprentissage — notamment le dev natif
-Apple qui est nouveau pour moi. Toutes les décisions restent relues, comprises et assumées.
+interface chat) comme outil de développement. Toutes les décisions restent relues, comprises et assumées.
 
 ---
 

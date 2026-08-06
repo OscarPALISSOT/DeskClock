@@ -13,7 +13,7 @@ import UIKit
 final class LocationService: NSObject {
     private let manager = CLLocationManager()
     private let officeCenter = Config.officeCoordinate
-    private let officeRadius: CLLocationDistance = 80
+    private let officeRadius: CLLocationDistance = 150
     
     private(set) var authorizationStatus: CLAuthorizationStatus
     private var isEntryInFlight = false
@@ -145,6 +145,9 @@ extension LocationService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
         DebugLoggerService.shared.log("didStartMonitoringFor: \(region.identifier)")
+        if let region = manager.monitoredRegions.first as? CLCircularRegion {
+            DebugLoggerService.shared.log("Monitoring active — center: \(region.center.latitude), \(region.center.longitude), radius: \(region.radius)m")
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
