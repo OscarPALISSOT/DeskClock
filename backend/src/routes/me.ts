@@ -9,7 +9,7 @@ export default async function meRoutes(app: FastifyInstance) {
     const userId = request.user.sub;
 
     const [user] = await app.db<User[]>`
-      SELECT id, email, created_at
+      SELECT id, email, role, created_at
       FROM users
       WHERE id = ${userId}
     `;
