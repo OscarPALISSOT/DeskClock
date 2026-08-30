@@ -11,6 +11,7 @@ Application iOS de DeskClock. Détecte automatiquement les arrivées et départs
 ## Sommaire
 
 - [Stack](#stack)
+- [Fiabilité du géofencing](#fiabilité-du-géofencing)
 - [Gestion des erreurs](#gestion-des-erreurs)
 
 ---
@@ -23,6 +24,32 @@ Application iOS de DeskClock. Détecte automatiquement les arrivées et départs
 | Géofencing | Core Location |
 | Stockage sécurisé | Keychain |
 | Widget | WidgetKit (à venir) |
+
+---
+
+## Fiabilité du géofencing
+
+Le region monitoring (`CLCircularRegion`) est réenregistré à chaque lancement du process — manuel ou relance par iOS suite à un événement de localisation. `locationManagerDidChangeAuthorization` est appelé dès l'assignation du delegate, y compris lorsque le statut n'a pas changé ; ce n'est pas un signal fiable de changement réel, seulement du statut courant.
+
+Le suivi des changements significatifs de position (SLC) sert de déclencheur actif complémentaire aux événements de franchissement de frontière (`didEnterRegion`/`didExitRegion`) : chaque réveil SLC force une vérification d'état via `requestState(for:)`, indépendamment d'un franchissement détecté ou d'une réouverture manuelle de l'app.
+
+```mermaid
+flowchart TD
+    A["Lancement du process\n(ouverture manuelle ou relance par iOS)"] --> B["startMonitoring(for: office)\n+ requestState(for: office)"]
+    C["SLC — déplacement ~500m\nou changement de cellule"] --> D[didUpdateLocations]
+    D --> E["requestState(for: office)"]
+    F[Franchissement réel de la frontière] --> G["didEnterRegion / didExitRegion"]
+
+    B --> H[didDetermineState]
+    E --> H
+
+    H --> I{État CoreLocation ≠ état local ?}
+    G --> J[handleOfficeEntry / handleOfficeExit]
+    I -- Oui --> J
+    I -- Non --> K[Ignoré]
+```
+
+Objectif : réduire le délai entre un changement de présence réel et sa détection, en particulier après une longue période d'inactivité du sous-système de localisation (nuit, week-end), sans dépendre d'une réouverture manuelle de l'app pour corriger l'état.
 
 ---
 
