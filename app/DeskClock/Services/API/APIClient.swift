@@ -107,6 +107,10 @@ final class APIClient {
         return try await request("auth/email/register", method: "POST", body: Body(email: email, password: password))
     }
     
+    func getMe() async throws -> User {
+        try await request("me")
+    }
+    
     func getSessions(from: Date? = nil, to: Date? = nil) async throws -> [Session] {
         
         let formatter = ISO8601DateFormatter()

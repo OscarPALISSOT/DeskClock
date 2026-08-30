@@ -13,9 +13,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    NavigationLink("Logs de debug") {
-                        DebugLogView()
+                if authService.currentUser?.role == .tester {
+                    Section {
+                        NavigationLink("Logs de debug") {
+                            DebugLogView()
+                        }
                     }
                 }
                 Section {

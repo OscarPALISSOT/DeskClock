@@ -11,6 +11,7 @@ import UIKit
 @Observable
 class AuthService: NSObject {
     var isAuthenticated = false
+    var currentUser: User?
     
     override init() {
         let token = try? KeychainService.read(.accessToken)
@@ -24,6 +25,10 @@ class AuthService: NSObject {
             name: .authDidExpire,
             object: nil
         )
+        
+        if isAuthenticated {
+            Task { await fetchCurrentUser() }
+        }
     }
     
     func login(email: String, password: String) async throws {
@@ -31,6 +36,7 @@ class AuthService: NSObject {
         try KeychainService.save(dto.access_token, for: .accessToken)
         try KeychainService.save(dto.refresh_token, for: .refreshToken)
         isAuthenticated = true
+        await fetchCurrentUser()
     }
     
     func register(email: String, password: String) async throws {
@@ -38,19 +44,30 @@ class AuthService: NSObject {
         try KeychainService.save(dto.access_token, for: .accessToken)
         try KeychainService.save(dto.refresh_token, for: .refreshToken)
         isAuthenticated = true
+        await fetchCurrentUser()
     }
     
     func logout() {
         try? KeychainService.delete(.accessToken)
         try? KeychainService.delete(.refreshToken)
         isAuthenticated = false
+        currentUser = nil
     }
     
     @objc private func handleAuthExpired() {
         DebugLoggerService.shared.log("Forced deconnexion, refresh failed")
         isAuthenticated = false
+        currentUser = nil
     }
-
+    
+    private func fetchCurrentUser() async {
+        do {
+            currentUser = try await APIClient.shared.getMe()
+        } catch {
+            DebugLoggerService.shared.log("Failed to fetch user profile: \(error)")
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
