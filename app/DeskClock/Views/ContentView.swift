@@ -18,6 +18,9 @@ struct ContentView: View {
                     .tabItem {
                         Label("Tableau de bord", systemImage: "house.fill")
                     }
+                    .task {
+                        await NotificationService.shared.requestAuthorizationIfNeeded()
+                    }
                 
                 HistoryView()
                     .tabItem {
