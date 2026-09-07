@@ -35,6 +35,7 @@ class SessionViewModel {
         do {
             let session = try await APIClient.shared.clockIn(startedAt: Date())
             sessions.insert(session, at: 0)
+            NotificationService.shared.notifySessionStarted(startedAt: session.startedAt)
         } catch let apiError as APIError {
             error = apiError
         } catch {
@@ -52,6 +53,10 @@ class SessionViewModel {
             )
             if let index = sessions.firstIndex(where: { $0.id == active.id }) {
                 sessions[index] = updated
+            }
+            if let endedAt = updated.endedAt {
+                let duration = endedAt.timeIntervalSince(updated.startedAt)
+                NotificationService.shared.notifySessionEnded(endedAt: endedAt, duration: duration)
             }
         } catch let apiError as APIError {
             error = apiError

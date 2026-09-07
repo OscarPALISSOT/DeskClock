@@ -217,3 +217,21 @@ npm run test:run      # Une seule passe (CI)
 ```
 
 Les tests d'intégration démarrent une instance Fastify en mémoire et utilisent une base PostgreSQL de test dédiée (`deskclock_test`).
+
+---
+
+## Administration
+
+La prod dispose d'un container Adminer afin de pouvoir administrer les bases de données.
+
+Pour accèder à l'adminer
+
+```bash
+ssh -L 8080:localhost:8080 ssh@prod
+```
+
+Puis dans le navigateur local
+
+```bash
+http://localhost:8080
+```
