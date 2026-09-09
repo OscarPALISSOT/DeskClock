@@ -14,11 +14,11 @@ final class LocationService: NSObject {
     private let manager = CLLocationManager()
     private let officeCenter = Config.officeCoordinate
     private let officeRadius: CLLocationDistance = 80
-
+    
     private(set) var authorizationStatus: CLAuthorizationStatus
     private var isEntryInFlight = false
     private var isExitInFlight = false
-
+    
     override init() {
         self.authorizationStatus = manager.authorizationStatus
         super.init()
@@ -27,18 +27,18 @@ final class LocationService: NSObject {
             "LocationService initialized — initial status: \(describe(authorizationStatus)), local currentSessionID: \(currentSessionID ?? "nil")"
         )
     }
-
+    
     // MARK: - IOS user authorization
     func requestWhenInUseAuthorization() {
         guard authorizationStatus == .notDetermined else { return }
         manager.requestWhenInUseAuthorization()
     }
-
+    
     func requestAlwaysAuthorization() {
         guard authorizationStatus == .authorizedWhenInUse else { return }
         manager.requestAlwaysAuthorization()
     }
-
+    
     // MARK: - Start monitor office
     func startMonitoringOffice(
         center: CLLocationCoordinate2D,
@@ -61,14 +61,14 @@ final class LocationService: NSObject {
         manager.requestState(for: office)
         DebugLoggerService.shared.log("startMonitoring called for 'office'")
     }
-
+    
     // MARK: - Significant Location Change monitoring (SLC)
     //
     // SLC wakes the app on ~500m movement or cell/Wi-Fi handover, even from a
     // killed/suspended state, at very low power cost. Used here as an ACTIVE
     // trigger to force a fresh region check instead of waiting passively for
     // the next boundary-crossing event or the next app launch.
-
+    
     func startSignificantLocationMonitoring() {
         guard CLLocationManager.significantLocationChangeMonitoringAvailable()
         else {
@@ -80,7 +80,7 @@ final class LocationService: NSObject {
         manager.startMonitoringSignificantLocationChanges()
         DebugLoggerService.shared.log("SLC monitoring started")
     }
-
+    
     // MARK: - Clock-in
     func handleOfficeEntry() {
         guard currentSessionID == nil else {
@@ -102,7 +102,7 @@ final class LocationService: NSObject {
             await self.attemptClockIn(remainingRetries: 2)
         }
     }
-
+    
     private func attemptClockIn(remainingRetries: Int) async {
         do {
             let session = try await APIClient.shared.clockIn(startedAt: Date())
@@ -110,8 +110,9 @@ final class LocationService: NSObject {
             DebugLoggerService.shared.log(
                 "Clock-in success — session \(session.id)"
             )
+            NotificationService.shared.notifySessionStarted(startedAt: session.startedAt)
         } catch let error as APIError
-            where isTransient(error) && remainingRetries > 0
+                    where isTransient(error) && remainingRetries > 0
         {
             DebugLoggerService.shared.log(
                 "Clock-in transient failure (\(error)) — retrying in 5s, \(remainingRetries) attempt(s) left"
@@ -122,7 +123,7 @@ final class LocationService: NSObject {
             DebugLoggerService.shared.log("Clock-in failed — \(error)")
         }
     }
-
+    
     // MARK: - Clock-out
     func handleOfficeExit() {
         guard let sessionID = currentSessionID else {
@@ -147,18 +148,22 @@ final class LocationService: NSObject {
             )
         }
     }
-
+    
     private func attemptClockOut(sessionID: String, remainingRetries: Int) async
     {
         do {
-            let _ = try await APIClient.shared.clockOut(
+            let updated = try await APIClient.shared.clockOut(
                 sessionId: sessionID,
                 endedAt: Date()
             )
             self.currentSessionID = nil
             DebugLoggerService.shared.log("Clock-out success")
+            if let endedAt = updated.endedAt {
+                let duration = endedAt.timeIntervalSince(updated.startedAt)
+                NotificationService.shared.notifySessionEnded(endedAt: endedAt, duration: duration)
+            }
         } catch APIError.httpError(let statusCode, let message)
-            where statusCode == 404
+                    where statusCode == 404
         {
             // Server no longer knows this session (closed/deleted manually, or local/server inconsistency) — local state is stale, fix it rather than staying stuck indefinitely.
             DebugLoggerService.shared.log(
@@ -166,7 +171,7 @@ final class LocationService: NSObject {
             )
             self.currentSessionID = nil
         } catch let error as APIError
-            where isTransient(error) && remainingRetries > 0
+                    where isTransient(error) && remainingRetries > 0
         {
             DebugLoggerService.shared.log(
                 "Clock-out transient failure (\(error)) — retrying in 5s, \(remainingRetries) attempt(s) left"
@@ -180,7 +185,7 @@ final class LocationService: NSObject {
             DebugLoggerService.shared.log("Clock-out failed — \(error)")
         }
     }
-
+    
     // Treats network and auth failures as worth a short retry.
     // After the refresh-flow fix, both can result from a local hiccup (bad connectivity, Keychain read failing at the wrong moment) rather than a permanent problem with the request itself.
     // A genuine rejection surfaces later, after retries are exhausted, and is not retried further.
@@ -312,12 +317,12 @@ extension LocationService: CLLocationManagerDelegate {
 }
 
 extension LocationService {
-
+    
     fileprivate var currentSessionID: String? {
         get { UserDefaults.standard.string(forKey: "currentSessionID") }
         set { UserDefaults.standard.set(newValue, forKey: "currentSessionID") }
     }
-
+    
     fileprivate func describe(_ status: CLAuthorizationStatus) -> String {
         switch status {
         case .notDetermined: return "notDetermined"
@@ -328,7 +333,7 @@ extension LocationService {
         @unknown default: return "unknown(\(status.rawValue))"
         }
     }
-
+    
     fileprivate func describe(_ state: CLRegionState) -> String {
         switch state {
         case .inside: return "inside"
@@ -337,7 +342,7 @@ extension LocationService {
         @unknown default: return "unknown(\(state.rawValue))"
         }
     }
-
+    
     fileprivate func logLocationContext(prefix: String) {
         guard let location = manager.location else {
             DebugLoggerService.shared.log(
@@ -350,7 +355,7 @@ extension LocationService {
             "\(prefix) — accuracy: \(Int(location.horizontalAccuracy))m, staleness: \(staleness)s"
         )
     }
-
+    
     fileprivate func beginTrackedTask(
         name: String,
         operation: @escaping () async -> Void
