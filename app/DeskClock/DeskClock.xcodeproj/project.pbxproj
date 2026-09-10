@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		272299CB305360C7003AE23F /* DeskClock.icon in Resources */ = {isa = PBXBuildFile; fileRef = 272299CA305360C7003AE23F /* DeskClock.icon */; };
 		27C38CF1301FAB09001FD7EE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C38CF0301FAB08001FD7EE /* WidgetKit.framework */; };
 		27C38CF3301FAB09001FD7EE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27C38CF2301FAB09001FD7EE /* SwiftUI.framework */; };
 		27C38D02301FAB0A001FD7EE /* DeskClockWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 27C38CEE301FAB08001FD7EE /* DeskClockWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -37,6 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		272299CA305360C7003AE23F /* DeskClock.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = DeskClock.icon; sourceTree = "<group>"; };
 		27672E7E2FFF0E3F00945B06 /* OfficeInside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OfficeInside.gpx; path = ../TestGeoFencing/OfficeInside.gpx; sourceTree = "<group>"; };
 		27672E7F2FFF0E4600945B06 /* OfficeOutside.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = OfficeOutside.gpx; path = ../TestGeoFencing/OfficeOutside.gpx; sourceTree = "<group>"; };
 		278B8FE72FE5FB4D00A8509A /* DeskClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeskClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +178,7 @@
 				27C38CEE301FAB08001FD7EE /* DeskClockWidgetExtension.appex */,
 				27C38CF4301FAB09001FD7EE /* DeskClockWidget */,
 				27C38CEF301FAB08001FD7EE /* Frameworks */,
+				272299CA305360C7003AE23F /* DeskClock.icon */,
 			);
 			sourceTree = "<group>";
 		};
@@ -289,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				272299CB305360C7003AE23F /* DeskClock.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,8 +457,9 @@
 			baseConfigurationReferenceAnchor = 27C38D4F3022945F001FD7EE /* Config */;
 			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = DeskClock;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = DeskClock.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -494,8 +499,9 @@
 			baseConfigurationReferenceAnchor = 27C38D4F3022945F001FD7EE /* Config */;
 			baseConfigurationReferenceRelativePath = Secrets.xcconfig;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = DeskClock;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = DeskClock.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

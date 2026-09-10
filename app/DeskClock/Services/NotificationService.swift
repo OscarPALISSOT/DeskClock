@@ -28,7 +28,7 @@ final class NotificationService {
     func notifySessionStarted(startedAt: Date) {
         let content = UNMutableNotificationContent()
         content.title = "Début de la session de travail"
-        content.body = "Session commencé à \(startedAt.formatted( .dateTime.hour().minute()))"
+        content.body = "Session commencée à \(startedAt.formatted( .dateTime.hour().minute()))"
         content.sound = .default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
