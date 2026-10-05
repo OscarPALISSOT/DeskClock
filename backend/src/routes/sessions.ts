@@ -8,7 +8,6 @@ import {
 } from '../schemas/session.schema.js';
 
 export default async function sessionRoutes(app: FastifyInstance) {
-  // Protect all routes of this plugin
   app.addHook('onRequest', app.authenticate);
 
   // POST /sessions — clock-in
@@ -16,9 +15,13 @@ export default async function sessionRoutes(app: FastifyInstance) {
     const body = CreateSessionSchema.parse(request.body);
     const userId = request.user.sub;
 
+    // office_id is resolved server-side from the user's own office — never
+    // trusted from the client. Resolves to NULL if no office is configured;
+    // this must not block clock-in.
+
     const [session] = await app.db<Session[]>`
-      INSERT INTO work_sessions (user_id, started_at)
-      VALUES (${userId}, ${body.started_at})
+      INSERT INTO work_sessions (user_id, started_at, office_id)
+      VALUES (${userId}, ${body.started_at}, (SELECT id FROM offices WHERE user_id = ${userId}))
       RETURNING *
     `;
     return reply.status(201).send(session);

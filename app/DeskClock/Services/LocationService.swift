@@ -12,7 +12,7 @@ import UIKit
 @Observable
 final class LocationService: NSObject {
     private let manager = CLLocationManager()
-    private let officeCenter = Config.officeCoordinate
+    private let officeStore = OfficeLocationStore.shared
     private let officeRadius: CLLocationDistance = 80
     
     private(set) var authorizationStatus: CLAuthorizationStatus
@@ -23,9 +23,28 @@ final class LocationService: NSObject {
         self.authorizationStatus = manager.authorizationStatus
         super.init()
         manager.delegate = self
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleOfficeLocationChanged),
+            name: .officeLocationDidChange,
+            object: nil
+        )
         DebugLoggerService.shared.log(
             "LocationService initialized — initial status: \(describe(authorizationStatus)), local currentSessionID: \(currentSessionID ?? "nil")"
         )
+    }
+    
+    @objc private func handleOfficeLocationChanged() {
+        rearmOfficeMonitoring()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func rearmOfficeMonitoring() {
+        guard authorizationStatus == .authorizedAlways, let center = officeStore.center else { return }
+        startMonitoringOffice(center: center, radius: officeRadius)
     }
     
     // MARK: - IOS user authorization
@@ -46,7 +65,7 @@ final class LocationService: NSObject {
     ) {
         guard
             CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self)
-        else {
+                else {
             DebugLoggerService.shared.log("Region monitoring unavailable")
             return
         }
@@ -208,8 +227,12 @@ extension LocationService: CLLocationManagerDelegate {
         case .authorizedWhenInUse:
             self.requestAlwaysAuthorization()
         case .authorizedAlways:
-            startMonitoringOffice(center: officeCenter, radius: officeRadius)
-            startSignificantLocationMonitoring()
+            if let center = officeStore.center {
+                startMonitoringOffice(center: center, radius: officeRadius)
+                startSignificantLocationMonitoring()
+            } else {
+                DebugLoggerService.shared.log("Authorized but no office configured — monitoring not armed")
+            }
         case .denied, .restricted:
             DebugLoggerService.shared.log(
                 "Authorization revoked or restricted (\(describe(authorizationStatus))) — monitoring will be stopped by iOS"
@@ -256,7 +279,7 @@ extension LocationService: CLLocationManagerDelegate {
             let office = manager.monitoredRegions.first(where: {
                 $0.identifier == "office"
             })
-        else {
+                else {
             DebugLoggerService.shared.log(
                 "[SLC] no monitored 'office' region — skipping requestState"
             )

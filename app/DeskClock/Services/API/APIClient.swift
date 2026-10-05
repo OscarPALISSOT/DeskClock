@@ -24,7 +24,7 @@ final class APIClient {
         self.decoder.dateDecodingStrategy = .iso8601
     }
     
-    private func request<T: Decodable>(
+    func request<T: Decodable>(
         _ path: String,
         method: String = "GET",
         body: Encodable? = nil,
@@ -91,60 +91,6 @@ final class APIClient {
         }
     }
     
-    func login(email: String, password: String) async throws -> AuthResponseDTO {
-        struct Body: Encodable {
-            let email: String
-            let password: String
-        }
-        return try await request("auth/email/login", method: "POST", body: Body(email: email, password: password))
-    }
-    
-    func register(email: String, password: String) async throws -> AuthResponseDTO {
-        struct Body: Encodable {
-            let email: String
-            let password: String
-        }
-        return try await request("auth/email/register", method: "POST", body: Body(email: email, password: password))
-    }
-    
-    func getMe() async throws -> User {
-        try await request("me")
-    }
-    
-    func getSessions(from: Date? = nil, to: Date? = nil) async throws -> [Session] {
-        
-        let formatter = ISO8601DateFormatter()
-        let fromDate = from ?? Calendar.current.startOfWeek(for: Date())
-        let toDate = to ?? Date()
-        
-        let path = "sessions?from=\(formatter.string(from: fromDate))&to=\(formatter.string(from: toDate))"
-        
-        let dtos: [SessionDTO] = try await request(path)
-        return dtos.map { $0.toDomain() }
-    }
-    
-    func clockIn(startedAt: Date) async throws -> Session {
-        struct Body: Encodable {
-            let started_at: String
-            init(date: Date) {
-                started_at = ISO8601DateFormatter().string(from: date)
-            }
-        }
-        let dto: SessionDTO = try await request("sessions", method: "POST", body: Body(date: startedAt))
-        return dto.toDomain()
-    }
-    
-    func clockOut(sessionId: String, endedAt: Date) async throws -> Session {
-        struct Body: Encodable {
-            let ended_at: String
-            init(date: Date) {
-                ended_at = ISO8601DateFormatter().string(from: date)
-            }
-        }
-        let dto: SessionDTO = try await request("sessions/\(sessionId)", method: "PATCH", body: Body(date: endedAt))
-        return dto.toDomain()
-    }
-    
     private func forceLogout() async {
         try? KeychainService.delete(.accessToken)
         try? KeychainService.delete(.refreshToken)
@@ -153,12 +99,6 @@ final class APIClient {
         }
     }
     
-    func refreshToken(_ refreshToken: String) async throws -> AuthResponseDTO {
-        struct Body: Encodable {
-            let refresh_token: String
-        }
-        return try await request("auth/refresh", method: "POST", body: Body(refresh_token: refreshToken), isRetryAfterRefresh: true)
-    }
 }
 
 extension Notification.Name {

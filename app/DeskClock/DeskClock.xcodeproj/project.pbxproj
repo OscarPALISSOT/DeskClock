@@ -51,6 +51,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2793F72F305C96140016199B /* Exceptions for "Config" folder in "DeskClock" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Secrets.xcconfig,
+			);
+			target = 2740C04C2FE4A1A2005420C4 /* DeskClock */;
+		};
 		27C38D06301FAB0A001FD7EE /* Exceptions for "DeskClockWidget" folder in "DeskClockWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -62,6 +69,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				API/APIClient.swift,
+				"API/APIClient+Auth.swift",
+				"API/APIClient+Me.swift",
+				"API/APIClient+Offices.swift",
+				"API/APIClient+Sessions.swift",
 				API/APIError.swift,
 				DebugLoggerService.swift,
 				KeychainService.swift,
@@ -132,6 +143,7 @@
 		27C38D4F3022945F001FD7EE /* Config */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				2793F72F305C96140016199B /* Exceptions for "Config" folder in "DeskClock" target */,
 				27C38E873022A29A001FD7EE /* Exceptions for "Config" folder in "DeskClockWidgetExtension" target */,
 			);
 			path = Config;
@@ -255,7 +267,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2660;
-				LastUpgradeCheck = 2650;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					2740C04C2FE4A1A2005420C4 = {
 						CreatedOnToolsVersion = 26.5;
@@ -336,6 +348,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -390,6 +403,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -400,6 +414,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -447,6 +462,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};

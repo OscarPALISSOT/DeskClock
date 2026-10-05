@@ -6,6 +6,7 @@ import errorHandlerPlugin from '../src/plugins/error.js';
 import jwtPlugin from '../src/plugins/jwt.js';
 import authRoutes from '../src/routes/auth/auth.js';
 import meRoutes from '../src/routes/me.js';
+import officeRoutes from '../src/routes/offices.js';
 import sessionRoutes from '../src/routes/sessions.js';
 
 export async function buildApp() {
@@ -18,6 +19,7 @@ export async function buildApp() {
   await app.register(jwtPlugin);
   await app.register(errorHandlerPlugin);
   await app.register(authRoutes, { prefix: '/v1/auth' });
+  await app.register(officeRoutes, { prefix: '/v1/offices' });
   await app.register(sessionRoutes, { prefix: '/v1/sessions' });
   await app.register(meRoutes, { prefix: '/v1/me' });
 
@@ -41,5 +43,6 @@ export async function seedUserWithToken(app: Awaited<ReturnType<typeof buildApp>
 export async function cleanDb(app: Awaited<ReturnType<typeof buildApp>>) {
   await app.db`DELETE FROM refresh_tokens`;
   await app.db`DELETE FROM work_sessions`;
+  await app.db`DELETE FROM offices`;
   await app.db`DELETE FROM users`;
 }

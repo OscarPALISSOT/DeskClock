@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const SessionSchema = z.object({
   id: z.string().uuid(),
   user_id: z.string().uuid(),
+  office_id: z.string().uuid().nullable(),
   started_at: z.string().datetime(),
   ended_at: z.string().datetime().nullable(),
   created_at: z.string().datetime(),

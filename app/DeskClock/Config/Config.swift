@@ -17,13 +17,4 @@ enum Config {
         }
         return url
     }
-    
-    static var officeCoordinate: CLLocationCoordinate2D {
-        guard let latRaw = Bundle.main.object(forInfoDictionaryKey: "OFFICE_LATITUDE") as? String,
-              let lonRaw = Bundle.main.object(forInfoDictionaryKey: "OFFICE_LONGITUDE") as? String,
-              let lat = Double(latRaw), let lon = Double(lonRaw) else {
-            fatalError("Missing or invalid OFFICE_LATITUDE/LONGITUDE — check Secrets.xcconfig")
-        }
-        return CLLocationCoordinate2D(latitude: lat, longitude: lon)
-    }
 }

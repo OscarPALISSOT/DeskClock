@@ -2,7 +2,7 @@
 
 > Suivi automatique du temps de présence au bureau — backend REST, app iOS native, widget écran d'accueil.
 
-Un projet perso exploratoire qui couvre plusieurs sujets techniques en un seul endroit : API REST typée, authentification Apple, géofencing iOS, et WidgetKit. Conçu pour une utilisation personnelle sans publication sur l'App Store.
+Un projet perso exploratoire qui couvre plusieurs sujets techniques en un seul endroit : API REST typée, authentification Apple, géofencing iOS, et WidgetKit.
 
 ---
 

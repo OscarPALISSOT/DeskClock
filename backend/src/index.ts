@@ -9,6 +9,7 @@ import requestLoggerPlugin from './plugins/requestLogger.js';
 
 import authRoutes from './routes/auth/auth.js';
 import meRoutes from './routes/me.js';
+import officeRoutes from './routes/offices.js';
 import sessionRoutes from './routes/sessions.js';
 
 const logger: FastifyServerOptions['logger'] =
@@ -39,6 +40,7 @@ await app.register(requestLoggerPlugin);
 
 // Routes
 await app.register(sessionRoutes, { prefix: '/v1/sessions' });
+await app.register(officeRoutes, { prefix: '/v1/offices' });
 await app.register(meRoutes, { prefix: '/v1/me' });
 await app.register(authRoutes, { prefix: '/v1/auth' });
 

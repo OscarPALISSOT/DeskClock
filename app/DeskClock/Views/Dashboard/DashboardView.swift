@@ -11,10 +11,20 @@ struct DashboardView: View {
     @Environment(SessionViewModel.self) private var viewModel
     @Environment(LocationService.self) private var locationService
     
-
+    
     var body: some View {
         NavigationStack {
             List {
+                if !OfficeLocationStore.shared.isConfigured {
+                    Section {
+                        NavigationLink {
+                            SettingsOfficeView()
+                        } label: {
+                            Label("Aucun bureau configuré", systemImage: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                        }
+                    }
+                }
                 Section {
                     WeekProgressView(sessions: viewModel.sessions)
                 } header: {
