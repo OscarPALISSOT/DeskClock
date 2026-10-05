@@ -13,6 +13,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    NavigationLink("Bureau") {
+                        SettingsOfficeView()
+                    }
+                }
                 if authService.currentUser?.role == .tester {
                     Section {
                         NavigationLink("Logs de debug") {

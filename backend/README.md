@@ -206,6 +206,13 @@ npm run dev
 
 Github action `Backend deployement` qui gére le déploiement.
 
+### Migrations
+
+Pour lancer une migration SQL, il faut exécuter la commande suivante sur le server de prod :
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm backend npm run migrate:up:prod
+```
+
 ---
 
 ## Tests
