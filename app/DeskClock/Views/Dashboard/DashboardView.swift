@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DashboardView.swift
 //  DeskClock
 //
 //  Created by Oscar PALISSOT on 18/06/2026.
@@ -25,18 +25,24 @@ struct DashboardView: View {
                         }
                     }
                 }
-                Section {
-                    WeekProgressView(sessions: viewModel.sessions)
-                } header: {
-                    Text("Cette semaine")
-                }
-                
-                Section {
-                    ForEach(viewModel.sessions) { session in
-                        SessionRowView(session: session)
+                if viewModel.isLoading && viewModel.sessions.isEmpty {
+                    Section {
+                        ProgressView().frame(maxWidth: .infinity)
                     }
-                } header: {
-                    Text("Journal")
+                } else {
+                    Section {
+                        WeekProgressView(sessions: viewModel.sessions)
+                    } header: {
+                        Text("Cette semaine")
+                    }
+                    
+                    Section {
+                        ForEach(viewModel.sessions) { session in
+                            SessionRowView(session: session)
+                        }
+                    } header: {
+                        Text("Journal")
+                    }
                 }
             }
             .navigationTitle("DeskClock")
