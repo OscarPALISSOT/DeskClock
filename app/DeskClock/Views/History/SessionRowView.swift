@@ -10,6 +10,25 @@ import SwiftUI
 struct SessionRowView: View {
     let session: Session
     
+    private var dayTitle: String {
+        let calendar = Calendar.current
+        let date = session.startedAt
+        
+        if calendar.isDateInToday(date) { return "Aujourd'hui" }
+        if calendar.isDateInYesterday(date) { return "Hier" }
+        
+        if let days = calendar.dateComponents([.day],
+                                              from: calendar.startOfDay(for: date),
+                                              to: calendar.startOfDay(for: .now)).day,
+           days < 7 {
+            return date.formatted(.dateTime.weekday(.wide)
+                .locale(Locale(identifier: "fr_FR"))).capitalized
+        }
+        
+        return date.formatted(.dateTime.weekday(.wide).day().month(.wide)
+            .locale(Locale(identifier: "fr_FR"))).capitalized
+    }
+    
     var body: some View {
         HStack {
             VStack {
@@ -27,7 +46,7 @@ struct SessionRowView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             
             VStack(alignment: .leading) {
-                Text(session.isActive ? "En cours" : "Terminée")
+                Text(dayTitle)
                     .font(.headline)
                 Text("\(session.startedAt, format: .dateTime.hour().minute()) \(session.isActive ? "" : " - \(session.endedAt!, format: .dateTime.hour().minute())")")
                     .font(.caption)
