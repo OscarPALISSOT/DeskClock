@@ -11,7 +11,7 @@ import Foundation
 @Observable
 class SessionViewModel {
     var sessions: [Session] = []
-    var isLoading = false
+    var isLoading = true
     var error: APIError?
     
     var activeSession: Session? {
